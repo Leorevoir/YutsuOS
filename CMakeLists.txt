@@ -71,13 +71,37 @@ add_custom_command(
 add_custom_target(${KERNEL_NAME} ALL DEPENDS ${YUTSUOS_ELF})
 
 ########################################
+# ISO Creation Target
+########################################
+
+set(ISO_FILE ${CMAKE_BINARY_DIR}/yutsuos.iso)
+set(ISO_DIR ${CMAKE_BINARY_DIR}/iso)
+
+find_program(GRUB_FILE_EXECUTABLE grub-file REQUIRED)
+find_program(GRUB_MKRESCUE_EXECUTABLE grub-mkrescue REQUIRED)
+
+add_custom_command(
+    OUTPUT ${ISO_FILE}
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${ISO_DIR}/boot/grub
+    COMMAND ${CMAKE_COMMAND} -E copy ${YUTSUOS_ELF} ${ISO_DIR}/boot/
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/src/grub/grub.cfg ${ISO_DIR}/boot/grub/
+    COMMAND ${GRUB_FILE_EXECUTABLE} --is-x86-multiboot ${ISO_DIR}/boot/yutsuos.elf
+    COMMAND ${GRUB_MKRESCUE_EXECUTABLE} -o ${ISO_FILE} ${ISO_DIR}
+    DEPENDS ${YUTSUOS_ELF} ${CMAKE_SOURCE_DIR}/src/grub/grub.cfg
+    COMMENT "Creating ISO image"
+    VERBATIM
+)
+
+add_custom_target(iso DEPENDS ${ISO_FILE})
+
+########################################
 # QEMU Launch Target
 ########################################
 
 add_custom_target(run
-    COMMAND qemu-system-i386 -kernel ${YUTSUOS_ELF} -serial stdio
-    DEPENDS ${KERNEL_NAME}
-    COMMENT "Launching YutsuOS with QEMU"
+    COMMAND qemu-system-i386 -s -cdrom ${ISO_FILE}
+    DEPENDS iso
+    COMMENT "Launching YutsuOS with QEMU from ISO"
     VERBATIM
 )
 
