@@ -52,81 +52,14 @@ foreach(C_FILE ${SRC_YUTSUOS})
     list(APPEND C_OBJECTS ${OBJ_FILE})
 endforeach()
 
-########################################
-# Link yutsuos
-########################################
-
-set(YUTSUOS_ELF ${CMAKE_BINARY_DIR}/yutsuos.elf)
-set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/linker.ld)
-
-add_custom_command(
-    OUTPUT ${YUTSUOS_ELF}
-    COMMAND ${CMAKE_C_COMPILER} -m32 -ffreestanding -fno-builtin -nostdlib 
-            -T ${LINKER_SCRIPT} ${ASM_OBJECTS} ${C_OBJECTS} -o ${YUTSUOS_ELF}
-    DEPENDS ${ASM_OBJECTS} ${C_OBJECTS} ${LINKER_SCRIPT}
-    COMMENT "Linking yutsuos"
-    VERBATIM
-)
-
-add_custom_target(${KERNEL_NAME} ALL DEPENDS ${YUTSUOS_ELF})
-
-########################################
-# ISO Creation Target
-########################################
-
-include(5_Iso)
-
-########################################
-# QEMU Launch Target
-########################################
-
-include(6_Qemu)
+include(5_Linker)
+include(6_Iso)
+include(7_Qemu)
 
 ########################################
 # YutsuOS unit tests
 ########################################
 
 if(ENABLE_TESTS)
-    add_executable(unit_tests ${SRC_TESTS})
-    set_target_properties(unit_tests PROPERTIES 
-        RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}
-    )
-
-    if(CMAKE_C_COMPILER_ID MATCHES "Clang|AppleClang")
-        target_compile_options(unit_tests PRIVATE 
-            -fprofile-instr-generate -fcoverage-mapping
-        )
-        target_link_options(unit_tests PRIVATE 
-            -fprofile-instr-generate -fcoverage-mapping
-        )
-    elseif(CMAKE_C_COMPILER_ID STREQUAL "GNU")
-        target_compile_options(unit_tests PRIVATE 
-            -fprofile-arcs -ftest-coverage
-        )
-        target_link_options(unit_tests PRIVATE 
-            -fprofile-arcs -ftest-coverage
-        )
-    endif()
-
-    target_compile_definitions(unit_tests PRIVATE YUTSUOS_TESTS=1)
-    target_link_libraries(unit_tests PRIVATE criterion)
-    target_include_directories(unit_tests PRIVATE ${INCLUDE_YUTSUOS})
-
-    include(4_Warnings)
-    apply_compiler_warnings(unit_tests)
-
-    enable_testing()
-    add_test(NAME unit_tests COMMAND unit_tests)
+    include(8_Tests)
 endif()
-
-########################################
-# Test Runner Target
-########################################
-
-add_custom_target(test_run
-    COMMENT "Running unit tests"
-    COMMAND ${CMAKE_COMMAND} -DENABLE_TESTS=ON ${CMAKE_SOURCE_DIR}
-    COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR} --target unit_tests
-    COMMAND ${CMAKE_BINARY_DIR}/unit_tests
-    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-)
