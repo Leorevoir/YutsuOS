@@ -52,35 +52,9 @@ foreach(C_FILE ${SRC_YUTSUOS})
     list(APPEND C_OBJECTS ${OBJ_FILE})
 endforeach()
 
-########################################
-# Link yutsuos
-########################################
-
-set(YUTSUOS_ELF ${CMAKE_BINARY_DIR}/yutsuos.elf)
-set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/linker.ld)
-
-add_custom_command(
-    OUTPUT ${YUTSUOS_ELF}
-    COMMAND ${CMAKE_C_COMPILER} -m32 -ffreestanding -fno-builtin -nostdlib 
-            -T ${LINKER_SCRIPT} ${ASM_OBJECTS} ${C_OBJECTS} -o ${YUTSUOS_ELF}
-    DEPENDS ${ASM_OBJECTS} ${C_OBJECTS} ${LINKER_SCRIPT}
-    COMMENT "Linking yutsuos"
-    VERBATIM
-)
-
-add_custom_target(${KERNEL_NAME} ALL DEPENDS ${YUTSUOS_ELF})
-
-########################################
-# ISO Creation Target
-########################################
-
-include(5_Iso)
-
-########################################
-# QEMU Launch Target
-########################################
-
-include(6_Qemu)
+include(5_Linker)
+include(6_Iso)
+include(7_Qemu)
 
 ########################################
 # YutsuOS unit tests
