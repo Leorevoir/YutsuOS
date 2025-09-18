@@ -82,3 +82,5 @@ appsettings.json
 *.dll
 *.pdb
 *.bin
+*.iso
+iso/
