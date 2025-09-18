@@ -74,6 +74,13 @@ function _fclean()
     rm -rf $PROGRAM_NAME $UNIT_TESTS_NAME plugins code_coverage.txt $UNIT_TESTS_NAME-*.profraw $UNIT_TESTS_NAME.profdata vgcore* cmake-build-debug *.a libr*
 }
 
+function _run()
+{
+    cd build || _error "cd failed"
+    ninja run
+    exit 0
+}
+
 for args in "$@"
 do
     case $args in
@@ -85,9 +92,11 @@ USAGE:
 ARGUMENTS:
       $0 [-h|--help]    displays this message
       $0 [-d|--debug]   debug flags compilation
+      $0 [-r|--re]      rebuild the project
       $0 [-c|--clean]   clean the project
       $0 [-f|--fclean]  fclean the project
       $0 [-t|--tests]   run unit tests
+      $0 [-run|--run]   run the program (after building it)
 EOF
         exit 0
         ;;
@@ -108,6 +117,9 @@ EOF
     -r|--re)
         _fclean
         _all
+        ;;
+    -run|--run)
+        _run
         ;;
     *)
         _error "Invalid arguments: " "$args"
