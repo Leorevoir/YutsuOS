@@ -1,0 +1,7 @@
+#ifndef YUTSUOS_MACROS_H
+#define YUTSUOS_MACROS_H
+
+#define YUTSUOS_SUCCESS 0
+#define YUTSUOS_FAILURE 84
+
+#endif /* YUTSUOS_MACROS_H */
