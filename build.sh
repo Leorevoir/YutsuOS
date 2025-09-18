@@ -39,6 +39,11 @@ function _base_run()
         _error "compilation error" "failed to compile $build_type"
     fi
     _success "compiled $build_type"
+
+    if ! ninja iso; then
+        _error "iso creation error" "failed to create iso image"
+    fi
+    _success "created iso image"
 }
 
 function _all()
@@ -71,7 +76,7 @@ function _clean()
 function _fclean()
 {
     _clean
-    rm -rf $PROGRAM_NAME $UNIT_TESTS_NAME plugins code_coverage.txt $UNIT_TESTS_NAME-*.profraw $UNIT_TESTS_NAME.profdata vgcore* cmake-build-debug *.a libr*
+    rm -rf $PROGRAM_NAME $UNIT_TESTS_NAME plugins code_coverage.txt $UNIT_TESTS_NAME-*.profraw $UNIT_TESTS_NAME.profdata vgcore* cmake-build-debug *.a libr* *.iso
 }
 
 function _run()
