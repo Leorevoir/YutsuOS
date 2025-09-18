@@ -56,27 +56,27 @@ endforeach()
 # Link yutsuos
 ########################################
 
-set(yutsuos_ELF ${CMAKE_BINARY_DIR}/yutsuos.elf)
+set(YUTSUOS_ELF ${CMAKE_BINARY_DIR}/yutsuos.elf)
 set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/linker.ld)
 
 add_custom_command(
-    OUTPUT ${yutsuos_ELF}
+    OUTPUT ${YUTSUOS_ELF}
     COMMAND ${CMAKE_C_COMPILER} -m32 -ffreestanding -fno-builtin -nostdlib 
-            -T ${LINKER_SCRIPT} ${ASM_OBJECTS} ${C_OBJECTS} -o ${yutsuos_ELF}
+            -T ${LINKER_SCRIPT} ${ASM_OBJECTS} ${C_OBJECTS} -o ${YUTSUOS_ELF}
     DEPENDS ${ASM_OBJECTS} ${C_OBJECTS} ${LINKER_SCRIPT}
     COMMENT "Linking yutsuos"
     VERBATIM
 )
 
-add_custom_target(yutsuos ALL DEPENDS ${yutsuos_ELF})
+add_custom_target(${KERNEL_NAME} ALL DEPENDS ${YUTSUOS_ELF})
 
 ########################################
 # QEMU Launch Target
 ########################################
 
 add_custom_target(run
-    COMMAND qemu-system-i386 -kernel ${yutsuos_ELF} -serial stdio
-    DEPENDS yutsuos
+    COMMAND qemu-system-i386 -kernel ${YUTSUOS_ELF} -serial stdio
+    DEPENDS ${KERNEL_NAME}
     COMMENT "Launching YutsuOS with QEMU"
     VERBATIM
 )
