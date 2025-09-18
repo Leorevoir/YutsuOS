@@ -1,1 +1,84 @@
+# files without extensions except Makefile
+*
+!*/
+!*.*
+!Makefile
+# temp files
+'#*#'
+*~
+*.swp
+*.gcda
+*.gcno
+vgcore*
+core.*
+!core.c
+core_*.*
+!core_*.c
+.DS_Store
+# object and compiled files
+*.o
+*.so
+*.a
+*.out
+# unwanted folders
+__pycache__/
+.vscode/
+.idea/
+# marvin files and folders
+mouli/
+.bash_history
+# unit tests
+unit_tests*
+# test and user generated temp files
+# example*
+*.txt
+# coding style logs
+coding-style-reports.log
+# .env files
+.env
+.env.*
+# following is not compliant with the .env naming convention
+# but it might be used
+*.env
+# other files
+tiled/
+temp/
+!LICENSE
+coverage-report/
+
+# clangd LSP
+compile_commands.json
+.cache/
+
+# CMakeLists.txt
+build/
+!CMakeLists.txt
+cmake-build-debug/
+
+vulkan_engine
+asm_offset
+*.spv
+
+*.jpg
+*.png
+*.mtl
+*.obj
+*.cc
+*.glb
+
+console.log
+assets/shaders/cache
+*.vs
+obj/
+*.user
+*.suo
+*.ncb
+*.opt
+*.cache
+*.log
+appsettings.json
+*.vscode/
+*.exe
+*.dll
+*.pdb
 *.bin
