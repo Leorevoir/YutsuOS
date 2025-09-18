@@ -1,4 +1,8 @@
-if(CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")
+########################################
+# Ccache Support
+########################################
+
+if(CMAKE_C_COMPILER_ID MATCHES "Clang|GNU")
     find_program(CCACHE_PROGRAM ccache)
     if(CCACHE_PROGRAM)
         set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE "${CCACHE_PROGRAM}")
@@ -6,6 +10,10 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")
         message(STATUS "INFO: using ccache: ${CCACHE_PROGRAM}")
     endif()
 endif()
+
+########################################
+# Parallel Build
+########################################
 
 include(ProcessorCount)
 ProcessorCount(N)

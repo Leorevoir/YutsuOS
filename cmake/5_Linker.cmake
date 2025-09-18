@@ -1,5 +1,5 @@
 function(apply_linker_settings target)
-    if(CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")
+    if(CMAKE_C_COMPILER_ID MATCHES "Clang|GNU")
         find_program(MOLD_LINKER mold)
         if(MOLD_LINKER)
             get_property(N CACHE PROCESSOR_COUNT PROPERTY VALUE)
