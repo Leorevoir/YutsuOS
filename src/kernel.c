@@ -2,27 +2,14 @@
 
 #include <YutsuOS/macros.h>
 
-// clang-format off
-
-static void yutsuos_neofetch(void)
+static void yutsuos_show_banner(void)
 {
-    yutsuos_vga_putstring(
-        " /$$     /$$           /$$                         /$$$$$$   /$$$$$$\n"
-        "|  $$   /$$/          | $$                        /$$__  $$ /$$__  $$\n"
-        " \\  $$ /$$//$$   /$$ /$$$$$$   /$$$$$$$ /$$   /$$| $$  \\ $$| $$  \\__/\n"
-        "  \\  $$$$/| $$  | $$|_  $$_/  /$$_____/| $$  | $$| $$  | $$|  $$$$$$\n"
-        "   \\  $$/ | $$  | $$  | $$   |  $$$$$$ | $$  | $$| $$  | $$ \\____  $$\n"
-        "    | $$  | $$  | $$  | $$ /$$\\____  $$| $$  | $$| $$  | $$ /$$  \\ $$\n"
-        "    | $$  |  $$$$$$/  |  $$$$//$$$$$$$/|  $$$$$$/|  $$$$$$/|  $$$$$$/\n"
-        "    |__/   \\______/    \\___/ |_______/  \\______/  \\______/  \\______/\n"
-        "\n", CYAN);
+    yutsuos_vga_putstring(YUTSUOS_BANNER, CYAN);
 }
-
-// clang-format on
 
 int main(void)
 {
     yutsuos_vga_clear_screen();
-    yutsuos_neofetch();
+    yutsuos_show_banner();
     return YUTSUOS_SUCCESS;
 }
