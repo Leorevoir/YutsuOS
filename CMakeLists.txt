@@ -42,7 +42,7 @@ foreach(C_FILE ${SRC_YUTSUOS})
 
     add_custom_command(
         OUTPUT ${OBJ_FILE}
-        COMMAND ${CMAKE_C_COMPILER} -m32 -ffreestanding -fno-builtin -nostdlib 
+        COMMAND ${CMAKE_C_COMPILER} -m32 -ffreestanding -fno-builtin -nostdlib -fno-stack-protector
                 -Wall -Wextra -I${CMAKE_SOURCE_DIR}/include -c ${C_FILE} -o ${OBJ_FILE}
         DEPENDS ${C_FILE}
         COMMENT "Compiling ${C_FILE}"

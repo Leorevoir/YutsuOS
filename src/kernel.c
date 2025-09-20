@@ -1,15 +1,17 @@
 #include <YutsuOS/core/vga.h>
+#include <YutsuOS/yutsh/yutsh.h>
 
 #include <YutsuOS/macros.h>
 
 static void yutsuos_show_banner(void)
 {
-    yutsuos_vga_putstring(YUTSUOS_BANNER, CYAN);
+    __yutsuos_core_vga_putstr(YUTSUOS_BANNER, CYAN);
 }
 
 int main(void)
 {
-    yutsuos_vga_clear_screen();
+    __yutsuos_core_vga_clear();
     yutsuos_show_banner();
+    yutsu_shell();
     return YUTSUOS_SUCCESS;
 }

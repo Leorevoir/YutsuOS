@@ -1,6 +1,7 @@
+#include <YutsuOS/core/byte.h>
 #include <YutsuOS/core/vga.h>
 #include <YutsuOS/macros.h>
-#include <YutsuOS/std/io.h>
+#include <YutsuOS/std/string.h>
 
 static YUTSUOS_USED void yutsuos_vga_move_left(void);
 static YUTSUOS_USED void yutsuos_vga_move_right(void);
@@ -33,10 +34,10 @@ static struct
  */
 static void yutsuos_vga_set_cursor_position(const u16 position)
 {
-    yutsuos_io_outb(0x3D4, 14);
-    yutsuos_io_outb(0x3D5, (position >> 8));
-    yutsuos_io_outb(0x3D4, 15);
-    yutsuos_io_outb(0x3D5, position);
+    __yutsuos_core_io_outb(0x3D4, 14);
+    __yutsuos_core_io_outb(0x3D5, (position >> 8));
+    __yutsuos_core_io_outb(0x3D4, 15);
+    __yutsuos_core_io_outb(0x3D5, position);
 }
 
 /**
@@ -147,7 +148,7 @@ static void yutsuos_vga_putnl(void)
  * @param c the character to put
  * @param color the color attribute (foreground and background colors)
  */
-void yutsuos_vga_putchar(const char c, const u8 color)
+void __yutsuos_core_vga_putchar(const char c, const u8 color)
 {
     if (c == '\n')
     {
@@ -170,19 +171,32 @@ void yutsuos_vga_putchar(const char c, const u8 color)
  * @param str the string to put
  * @param color the color attribute (foreground and background colors)
  */
-void yutsuos_vga_putstring(const char *str, const u8 color)
+void __yutsuos_core_vga_putstr(const char *str, const u8 color)
 {
     for (u32 i = 0; str[i] != '\0'; ++i)
     {
-        yutsuos_vga_putchar(str[i], color);
+        __yutsuos_core_vga_putchar(str[i], color);
     }
+}
+
+/**
+ * @brief put a number on the screen starting at the current cursor position
+ * @param num the number to put
+ * @param color the color attribute (foreground and background colors)
+ */
+void __yutsuos_core_vga_putnbr(const i32 num, const u8 color)
+{
+    char buf[12];
+    const char *str = yutsuos_itoa(num, buf, sizeof(buf));
+
+    __yutsuos_core_vga_putstr(str, color);
 }
 
 /**
  * @brief clear the screen
  * @details fills the VGA buffer with blank characters and resets the cursor position
  */
-void yutsuos_vga_clear_screen(void)
+void __yutsuos_core_vga_clear(void)
 {
     for (u32 i = 0; i < YUTSUOS_VGA_SIZE; i++)
     {
