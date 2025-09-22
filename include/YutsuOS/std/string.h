@@ -21,4 +21,10 @@ char *itoa(const i32 num, char *buf, const u32 bufsize);
  */
 void *memset(void *ptr, const int value, const u32 num);
 
+/**
+ * @brief return the length of a null-terminated string
+ * @param str the string to measure
+ */
+u32 strlen(const char *str);
+
 #endif /* YUTSUOS_STD_STRING_H */
