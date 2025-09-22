@@ -8,7 +8,7 @@
  * @param bufsize the size of the buffer
  * @return a pointer to the start of the string within the buffer
  */
-char *yutsuos_itoa(const i32 num, char *buf, const u32 bufsize)
+char *itoa(const i32 num, char *buf, const u32 bufsize)
 {
     /**
      * @info integers are at most 10 digits long, plus a sign and null terminator

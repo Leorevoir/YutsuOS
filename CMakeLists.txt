@@ -53,8 +53,6 @@ foreach(C_FILE ${SRC_YUTSUOS})
 endforeach()
 
 include(5_Linker)
-include(6_Iso)
-include(7_Qemu)
 
 ########################################
 # YutsuOS unit tests
@@ -62,4 +60,7 @@ include(7_Qemu)
 
 if(ENABLE_TESTS)
     include(8_Tests)
+else()
+    include(6_Iso)
+    include(7_Qemu)
 endif()

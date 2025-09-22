@@ -11,6 +11,14 @@
  * @param bufsize the size of the buffer
  * @return a pointer to the start of the string within the buffer
  */
-char *yutsuos_itoa(const i32 num, char *buf, const u32 bufsize);
+char *itoa(const i32 num, char *buf, const u32 bufsize);
+
+/**
+ * @brief fill a block of memory with a specific value
+ * @param ptr pointer to the block of memory to fill
+ * @param value the value to set
+ * @param num number of bytes to be set to the value
+ */
+void *memset(void *ptr, const int value, const u32 num);
 
 #endif /* YUTSUOS_STD_STRING_H */

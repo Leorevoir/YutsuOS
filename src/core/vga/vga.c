@@ -187,7 +187,7 @@ void __yutsuos_core_vga_putstr(const char *str, const u8 color)
 void __yutsuos_core_vga_putnbr(const i32 num, const u8 color)
 {
     char buf[12];
-    const char *str = yutsuos_itoa(num, buf, sizeof(buf));
+    const char *str = itoa(num, buf, sizeof(buf));
 
     __yutsuos_core_vga_putstr(str, color);
 }

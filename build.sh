@@ -40,10 +40,12 @@ function _base_run()
     fi
     _success "compiled $build_type"
 
-    if ! ninja iso; then
-        _error "iso creation error" "failed to create iso image"
+    if [ "$build_type" != "$UNIT_TESTS_NAME" ]; then
+        if ! ninja iso; then
+            _error "iso creation error" "failed to create iso image"
+        fi
+        _success "created iso image"
     fi
-    _success "created iso image"
 }
 
 function _all()

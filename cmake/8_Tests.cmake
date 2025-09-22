@@ -1,6 +1,8 @@
 add_executable(unit_tests ${SRC_TESTS})
 set_target_properties(unit_tests PROPERTIES 
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}
+    COMPILE_OPTIONS "-m32"
+    LINK_OPTIONS "-m32"
 )
 
 if(CMAKE_C_COMPILER_ID MATCHES "Clang|AppleClang")
@@ -19,9 +21,9 @@ elseif(CMAKE_C_COMPILER_ID STREQUAL "GNU")
     )
 endif()
 
+target_compile_options(unit_tests PRIVATE -m32 -ffreestanding -fno-builtin -nostdlib -fno-stack-protector -Wall -Wextra)
 target_compile_definitions(unit_tests PRIVATE YUTSUOS_TESTS=1)
-target_link_libraries(unit_tests PRIVATE criterion)
-target_include_directories(unit_tests PRIVATE ${INCLUDE_YUTSUOS})
+target_include_directories(unit_tests PRIVATE ${INCLUDE_YUTSUOS} tests/)
 
 include(4_Warnings)
 apply_compiler_warnings(unit_tests)
