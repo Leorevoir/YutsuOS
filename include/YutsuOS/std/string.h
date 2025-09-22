@@ -38,4 +38,16 @@ u32 strlen(const char *str);
  */
 i32 strcmp(const char *s1, const char *s2);
 
+/**
+ * @brief compare two strings up to n characters
+ * @param s1 first string
+ * @param s2 second string
+ * @param n maximum number of characters to compare
+ * @return
+ * - 0 if the strings are equal
+ * - <0 if s1 is less than s2
+ * - >0 if s1 is greater than s2
+ */
+i32 strncmp(const char *s1, const char *s2, const u32 n);
+
 #endif /* YUTSUOS_STD_STRING_H */
