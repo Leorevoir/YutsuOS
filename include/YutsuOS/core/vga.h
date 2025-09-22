@@ -62,4 +62,24 @@ void __yutsuos_core_vga_putstr(const char *str, const u8 color);
  */
 void __yutsuos_core_vga_putnbr(const i32 num, const u8 color);
 
+/**
+ * @brief move the cursor left
+ */
+void __yutsuos_vga_move_left(void);
+
+/**
+ * @brief move the cursor right
+ */
+void __yutsuos_vga_move_right(void);
+
+/**
+ * @brief move the cursor up
+ */
+void __yutsuos_vga_move_up(void);
+
+/**
+ * @brief move the cursor down
+ */
+void __yutsuos_vga_move_down(void);
+
 #endif /* YUTSUOS_VGA_H */

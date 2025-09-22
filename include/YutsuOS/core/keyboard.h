@@ -8,11 +8,16 @@
 #define YUTSUOS_DATA_PORT 0x60
 #define YUTSUOS_STATUS_BUFFER_FULL 0x01
 
+#define YUTSUOS_KEYBOARD_EXTENDED 0xE0
+#define YUTSUOS_KEYBOARD_LEFT_SHIFT 0x2A
+#define YUTSUOS_KEYBOARD_RIGHT_SHIFT 0x36
+
 // clang-format off
 
 /**
- * @brief command keyboard scan codes
+ * @brief PS/2 SET 1 (XT) keyboard scan codes
  * @details defines base PS/2 scan codes for keys
+ * these match standard XT keyboard layout
  */
 typedef enum KeyCode : u8 {
     KEY_NONE            = 0x00,
@@ -111,7 +116,7 @@ u8 get_key(void);
 
 /**
  * @brief get an ASCII char from the u8 PS/2 keycode
- * @details supports basic FR AZERY layout
+ * @details supports basic FR AZERTY layout
  * TODO: support for other layouts like EN QWERTY
  *
  * @param keycode the scan code to convert.
