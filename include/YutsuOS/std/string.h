@@ -27,4 +27,15 @@ void *memset(void *ptr, const int value, const u32 num);
  */
 u32 strlen(const char *str);
 
+/**
+ * @brief compare two null-terminated string
+ * @param s1 first string
+ * @param s2 second string
+ * @return
+ * - 0 if the strings are equal
+ * - <0 if s1 is less than s2
+ * - >0 if s1 is greater than s2
+ */
+i32 strcmp(const char *s1, const char *s2);
+
 #endif /* YUTSUOS_STD_STRING_H */
