@@ -9,40 +9,18 @@ void yutsu_shell(void)
 
     for (;;)
     {
-        show("yutsu> ");
+        show_color(BRIGHT_RED, "yutsh");
+        show_color(BRIGHT_MAGENTA, "> ");
         input(cmd, sizeof(cmd));
 
-        const u32 len = strlen(cmd); ///<< trim newline
+        const u32 len = strlen(cmd);
 
         if (len > 0 && cmd[len - 1] == '\n')
         {
             cmd[len - 1] = '\0';
         }
 
-        /* test commands */
-        if (strcmp(cmd, "help") == 0)
-        {
-            show("Available commands:\n");
-            show("  help - Show this help\n");
-            show("  clear - Clear screen\n");
-            show("  echo [text] - Echo back text\n");
-            show("  halt - Halt the CPU\n");
-        }
-        else if (strcmp(cmd, "clear") == 0)
-        {
-            __yutsuos_core_vga_clear();
-        }
-        else if (strncmp(cmd, "echo ", 5) == 0)
-        {
-            show("%s\n", cmd + 5);
-        }
-        else if (strcmp(cmd, "halt") == 0)
-        {
-            asm volatile("cli; hlt");
-        }
-        else if (cmd[0] != '\0')
-        {
-            show("Unknown command: %s\n", cmd);
-        }
+        show("You entered: %s\n", cmd);
+        show("Length: %d\n", (i32)len);
     }
 }

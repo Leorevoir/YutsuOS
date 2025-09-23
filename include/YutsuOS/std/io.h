@@ -11,6 +11,14 @@
 void show(const char *fmt, ...);
 
 /**
+ * @brief show formatted output to the TTY with color
+ * @param color The color to use (use VGA color codes)
+ * @param fmt The format string
+ * @param ... The arguments to format
+ */
+void show_color(const u8 color, const char *fmt, ...);
+
+/**
  * @brief get input from the TTY
  * @param buffer The buffer to store the input
  * @param size The size of the buffer
