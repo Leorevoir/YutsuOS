@@ -20,7 +20,15 @@ void yutsu_shell(void)
             cmd[len - 1] = '\0';
         }
 
-        show("You entered: %s\n", cmd);
-        show("Length: %d\n", (i32)len);
+        if (strcmp(cmd, "clear") == 0)
+        {
+            show("You entered: %s\n", cmd);
+            show("Length: %d\n", (i32)len);
+        }
+        if (strncmp(cmd, "echo ", 5) == 0)
+        {
+            show("You entered: %s\n", cmd);
+            show("Length: %d\n", (i32)len);
+        }
     }
 }

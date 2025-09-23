@@ -1,7 +1,5 @@
-#include <YutsuOS/std/io.h>
-#include <YutsuOS/std/types.h>
-
 #include <YutsuOS/core/vga.h>
+#include <YutsuOS/std/io.h>
 
 /**
  * static helpers
@@ -16,7 +14,14 @@ static inline void show_str(int **out_args, const u8 color)
 {
     const char *str = *(const char **)(*out_args);
 
-    __yutsuos_core_vga_putstr(str, color);
+    if (str)
+    {
+        __yutsuos_core_vga_putstr(str, color);
+    }
+    else
+    {
+        __yutsuos_core_vga_putstr("(null)", color);
+    }
     ++(*out_args);
 }
 
@@ -50,6 +55,37 @@ static void show_dispatch(const char **out_ptr, int **out_args, const u8 color)
 }
 
 /**
+ * internal implementation
+ */
+
+static void show_impl(const u8 color, const char *fmt, int *args)
+{
+    const char *p = fmt;
+
+    while (*p)
+    {
+        if (*p == '%')
+        {
+            ++p;
+            if (*p == '%')
+            {
+                __yutsuos_core_vga_putchar('%', color);
+                ++p;
+            }
+            else
+            {
+                show_dispatch(&p, &args, color);
+            }
+        }
+        else
+        {
+            __yutsuos_core_vga_putchar(*p, color);
+            ++p;
+        }
+    }
+}
+
+/**
  * public
  */
 
@@ -62,21 +98,8 @@ static void show_dispatch(const char **out_ptr, int **out_args, const u8 color)
 void show_color(const u8 color, const char *fmt, ...)
 {
     int *args = (int *)(&fmt + 1);
-    const char *p = fmt;
 
-    while (*p)
-    {
-        if (*p == '%')
-        {
-            ++p;
-            show_dispatch(&p, &args, color);
-        }
-        else
-        {
-            __yutsuos_core_vga_putchar(*p, color);
-            ++p;
-        }
-    }
+    show_impl(color, fmt, args);
 }
 
 /**
@@ -86,5 +109,7 @@ void show_color(const u8 color, const char *fmt, ...)
  */
 void show(const char *fmt, ...)
 {
-    show_color(WHITE, fmt);
+    int *args = (int *)(&fmt + 1);
+
+    show_impl(WHITE, fmt, args);
 }

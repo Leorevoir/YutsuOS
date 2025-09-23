@@ -9,6 +9,7 @@ strncmp:
 	mov  ebp, esp
 	push esi
 	push edi
+	push ebx
 
 	;.  const char *esi = s1
 	;.  const char *edi = s2
@@ -22,25 +23,21 @@ strncmp:
 	jz   .equal
 
 .align_loop:
-	;.   while (((u32)esi & 3) && ecx > 0) {
-	;    .   u8 a = *esi
-	;    .   u8 b = *edi
-	;    .
-	;    .   if (a != b) {
-	;    .       return (i32)a - (i32)b
-	;    .   }
-	;    .   if (a == '\0') {
-	;    .       return 0
-	;    .   }
-	;    .
-	;    .   ++esi
-	;    .   ++edi
-	;    .   --ecx
+	;.   while (((u32)esi & 3) != 0 && ecx > 0)
+	;.   {
+	;    .   u8 al = *esi
+	;    .   u8 bl = *edi
+	;    .   if (al != bl) goto .byte_diff
+	;    .   if (al == 0) goto .equal
+	;    .   esi++
+	;    .   edi++
+	;    .   ecx--
 	;.   }
 	test esi, 3
 	jz   .word_loop
 	test ecx, ecx
 	jz   .equal
+
 	mov  al, [esi]
 	mov  bl, [edi]
 	cmp  al, bl
@@ -53,59 +50,107 @@ strncmp:
 	jmp  .align_loop
 
 .word_loop:
-	;.  while (ecx >= 4) {
-	;   .  u32 wa = *(u32*)esi
-	;   .  u32 wb = *(u32*)edi
+	;.  while (ecx >= 4)
+	;.  {
+	;   .   u32 eax = *(u32 *)esi
+	;   .   u32 edx = *(u32 *)edi
 	;   .
-	;   .  if (wa != wb) {
-	;   .      break
-	;   .  }
+	;   .   if (eax != edx) goto .handle_word_diff
 	;   .
-	;   .  u32 tmp = (wa - 0x01010101) & ~wa & 0x80808080
-	;   .  if (tmp) {
-	;   .      return 0
-	;   .  }
+	;   .   u32 temp = eax
+	;   .   temp -= 0x01010101
+	;   .   eax = ~eax
+	;   .   eax &= temp
+	;   .   if (eax & 0x80808080) != 0) goto .equal
 	;   .
-	;   .  esi += 4; edi += 4; ecx -= 4
+	;   .   esi += 4
+	;   .   edi += 4
+	;   .   ecx -= 4
 	;.  }
 	cmp ecx, 4
-	jb  .byte_loop
+	jb  .final_bytes
+
 	mov eax, [esi]
 	mov edx, [edi]
 	cmp eax, edx
-	jne .word_diff
+	jne .handle_word_diff
 
-	mov ebx, eax
-	sub ebx, 0x01010101
-	not eax
-	and eax, ebx
-	and eax, 0x80808080
-	jnz .equal
+	push edx
+	mov  edx, eax
+	sub  edx, 0x01010101
+	not  eax
+	and  eax, edx
+	and  eax, 0x80808080
+	pop  edx
+	jnz  .equal
 
 	add esi, 4
 	add edi, 4
 	sub ecx, 4
 	jmp .word_loop
 
-.word_diff:
-.byte_loop:
-	;.   while (ecx > 0) {
-	;    .   u8 a = *esi
-	;    .   u8 b = *edi
-	;    .
-	;    .   if (a != b) {
-	;    .       return (i32)a - (i32)b
-	;    .   }
-	;    .
-	;    .   if (a == '\0') {
-	;    .       return 0
-	;    .   }
-	;    .   ++esi
-	;    .   ++edi
-	;    .   --ecx
+.handle_word_diff:
+	;.   for (u32 i = 0; i < min(4, ecx); i++)
+	;.   {
+	;    .   u8 al = esi[i]
+	;    .   u8 bl = edi[i]
+	;    .   if (al != bl) goto .word_diff_found
+	;    .   if (al == 0) goto .word_diff_equal
+	;.   }
+	push ecx
+
+	mov  al, [esi]
+	mov  bl, [edi]
+	cmp  al, bl
+	jne  .word_diff_found
+	test al, al
+	je   .word_diff_equal
+	dec  ecx
+	jz   .word_diff_equal
+
+	mov  al, [esi+1]
+	mov  bl, [edi+1]
+	cmp  al, bl
+	jne  .word_diff_found
+	test al, al
+	je   .word_diff_equal
+	dec  ecx
+	jz   .word_diff_equal
+
+	mov  al, [esi+2]
+	mov  bl, [edi+2]
+	cmp  al, bl
+	jne  .word_diff_found
+	test al, al
+	je   .word_diff_equal
+	dec  ecx
+	jz   .word_diff_equal
+
+	mov al, [esi+3]
+	mov bl, [edi+3]
+
+.word_diff_found:
+	pop ecx
+	jmp .byte_diff
+
+.word_diff_equal:
+	pop ecx
+	jmp .equal
+
+.final_bytes:
+	;.   while (ecx > 0)
+	;.   {
+	;    .   u8 al = *esi
+	;    .   u8 bl = *edi
+	;    .   if (al != bl) goto .byte_diff
+	;    .   if (al == 0) goto .equal
+	;    .   esi++
+	;    .   edi++
+	;    .   ecx--
 	;.   }
 	test ecx, ecx
 	jz   .equal
+
 	mov  al, [esi]
 	mov  bl, [edi]
 	cmp  al, bl
@@ -115,10 +160,10 @@ strncmp:
 	inc  esi
 	inc  edi
 	dec  ecx
-	jmp  .byte_loop
+	jmp  .final_bytes
 
 .byte_diff:
-	;.    return (i32)(u8)a - (i32)(u8)b
+	;.    return (i32)(u8)al - (i32)(u8)bl
 	movzx eax, al
 	movzx ebx, bl
 	sub   eax, ebx
@@ -128,6 +173,7 @@ strncmp:
 	xor eax, eax
 
 .done:
+	pop ebx
 	pop edi
 	pop esi
 	mov esp, ebp
