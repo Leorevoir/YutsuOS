@@ -1,6 +1,8 @@
 #include <YutsuOS/core/vga.h>
 #include <YutsuOS/std/io.h>
 
+void show_impl(const u8 color, const char *fmt, int *args);
+
 /**
  * static helpers
  */
@@ -58,7 +60,7 @@ static void show_dispatch(const char **out_ptr, int **out_args, const u8 color)
  * internal implementation
  */
 
-static void show_impl(const u8 color, const char *fmt, int *args)
+void show_impl(const u8 color, const char *fmt, int *args)
 {
     const char *p = fmt;
 
@@ -91,9 +93,9 @@ static void show_impl(const u8 color, const char *fmt, int *args)
 
 /**
  * @brief show formatted output to the TTY with color
- * @param color The color to use (use VGA color codes)
- * @param fmt The format string
- * @param ... The arguments to format
+ * @param color the color to use (use VGA color codes)
+ * @param fmt the format string
+ * @param ... the arguments to format
  */
 void show_color(const u8 color, const char *fmt, ...)
 {
@@ -104,8 +106,8 @@ void show_color(const u8 color, const char *fmt, ...)
 
 /**
  * @brief show formatted output to the TTY
- * @param fmt The format string
- * @param ... The arguments to format
+ * @param fmt the format string
+ * @param ... the arguments to format
  */
 void show(const char *fmt, ...)
 {

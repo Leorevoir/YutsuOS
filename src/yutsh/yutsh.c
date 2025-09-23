@@ -3,32 +3,32 @@
 #include <YutsuOS/std/string.h>
 #include <YutsuOS/yutsh/yutsh.h>
 
+/**
+ * static helpers
+ */
+
+static inline bool yutsu_shell_buffer_overflow(const char *buffer)
+{
+    return (strlen(buffer) >= YUTSUOS_YUTSH_MAX_BUFFER - 1);
+}
+
+/**
+ * public
+ */
+
 void yutsu_shell(void)
 {
-    char cmd[256];
+    char buffer[YUTSUOS_YUTSH_MAX_BUFFER];
 
     for (;;)
     {
         show_color(BRIGHT_RED, "yutsh");
         show_color(BRIGHT_MAGENTA, "> ");
-        input(cmd, sizeof(cmd));
-
-        const u32 len = strlen(cmd);
-
-        if (len > 0 && cmd[len - 1] == '\n')
+        input(buffer, sizeof(buffer));
+        if (yutsu_shell_buffer_overflow(buffer))
         {
-            cmd[len - 1] = '\0';
-        }
-
-        if (strcmp(cmd, "clear") == 0)
-        {
-            show("You entered: %s\n", cmd);
-            show("Length: %d\n", (i32)len);
-        }
-        if (strncmp(cmd, "echo ", 5) == 0)
-        {
-            show("You entered: %s\n", cmd);
-            show("Length: %d\n", (i32)len);
+            raise_error("yutsu_shell buffer overflow");
+            continue;
         }
     }
 }
