@@ -14,4 +14,20 @@ typedef long long i64;
 typedef float f32;
 typedef double f64;
 
+#ifndef bool
+#define bool _Bool
+#endif
+
+#ifndef true
+#define true 1
+#endif
+
+#ifndef false
+#define false 0
+#endif
+
+#ifndef NULL
+#define NULL ((void *)0)
+#endif
+
 #endif /* YUTSUOS_TYPES_H */

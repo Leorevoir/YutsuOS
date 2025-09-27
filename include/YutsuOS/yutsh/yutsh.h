@@ -1,0 +1,9 @@
+#ifndef YUTSUOS_YUTSH_YUTSH_H
+#define YUTSUOS_YUTSH_YUTSH_H
+
+#define YUTSUOS_YUTSH_VERSION "0.0.1"
+#define YUTSUOS_YUTSH_MAX_BUFFER 256
+
+void yutsu_shell(void);
+
+#endif /* YUTSUOS_YUTSH_YUTSH_H */

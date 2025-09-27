@@ -1,11 +1,7 @@
+#include <YutsuOS/core/byte.h>
 #include <YutsuOS/core/vga.h>
 #include <YutsuOS/macros.h>
-#include <YutsuOS/std/io.h>
-
-static YUTSUOS_USED void yutsuos_vga_move_left(void);
-static YUTSUOS_USED void yutsuos_vga_move_right(void);
-static YUTSUOS_USED void yutsuos_vga_move_up(void);
-static YUTSUOS_USED void yutsuos_vga_move_down(void);
+#include <YutsuOS/std/string.h>
 
 /**
  * @brief VGA buffer structure
@@ -33,10 +29,10 @@ static struct
  */
 static void yutsuos_vga_set_cursor_position(const u16 position)
 {
-    yutsuos_io_outb(0x3D4, 14);
-    yutsuos_io_outb(0x3D5, (position >> 8));
-    yutsuos_io_outb(0x3D4, 15);
-    yutsuos_io_outb(0x3D5, position);
+    __yutsuos_core_io_outb(0x3D4, 14);
+    __yutsuos_core_io_outb(0x3D5, (position >> 8));
+    __yutsuos_core_io_outb(0x3D4, 15);
+    __yutsuos_core_io_outb(0x3D5, position);
 }
 
 /**
@@ -50,69 +46,10 @@ static void yutsuos_vga_set_index(const u16 index)
 
     if (current >= YUTSUOS_VGA_SIZE)
     {
-        yutsuos_vga_move_up();
+        __yutsuos_vga_move_up();
         vga.index = (YUTSUOS_VGA_SIZE - YUTSUOS_VGA_COLUMNS) + (current % YUTSUOS_VGA_COLUMNS);
     }
     yutsuos_vga_set_cursor_position((u16)vga.index);
-}
-
-/**
- * move
- */
-
-/**
- * @brief move the cursor left
- */
-static void yutsuos_vga_move_left(void)
-{
-    if (vga.index > 0)
-    {
-        yutsuos_vga_set_index(vga.index - 1);
-    }
-}
-
-/**
- * @brief move the cursor right
- */
-static void yutsuos_vga_move_right(void)
-{
-    if (vga.index < YUTSUOS_VGA_SIZE - 1)
-    {
-        yutsuos_vga_set_index(vga.index + 1);
-    }
-}
-
-/**
- * @brief move the cursor up
- */
-static void yutsuos_vga_move_up(void)
-{
-    for (u32 i = 0; i < YUTSUOS_VGA_SIZE - YUTSUOS_VGA_COLUMNS; i++)
-    {
-        vga.buffer[i] = vga.buffer[i + YUTSUOS_VGA_COLUMNS];
-    }
-    for (u32 i = YUTSUOS_VGA_SIZE - YUTSUOS_VGA_COLUMNS; i < YUTSUOS_VGA_SIZE; i++)
-    {
-        vga.buffer[i] = YUTSUOS_VGA_BLANK;
-    }
-}
-
-/**
- * @brief move the cursor down
- */
-static void yutsuos_vga_move_down(void)
-{
-    const u32 current_row = vga.index / YUTSUOS_VGA_COLUMNS;
-
-    if (current_row < YUTSUOS_VGA_ROWS - 1)
-    {
-        yutsuos_vga_set_index(vga.index + YUTSUOS_VGA_COLUMNS);
-    }
-    else
-    {
-        yutsuos_vga_move_up();
-        yutsuos_vga_set_index(YUTSUOS_VGA_SIZE - YUTSUOS_VGA_COLUMNS);
-    }
 }
 
 /**
@@ -133,7 +70,7 @@ static void yutsuos_vga_putnl(void)
     }
     else
     {
-        yutsuos_vga_move_up();
+        __yutsuos_vga_move_up();
         yutsuos_vga_set_index((YUTSUOS_VGA_ROWS - 1) * YUTSUOS_VGA_COLUMNS);
     }
 }
@@ -143,11 +80,70 @@ static void yutsuos_vga_putnl(void)
  */
 
 /**
+ * move
+ */
+
+/**
+ * @brief move the cursor left
+ */
+void __yutsuos_vga_move_left(void)
+{
+    if (vga.index > 0)
+    {
+        yutsuos_vga_set_index(vga.index - 1);
+    }
+}
+
+/**
+ * @brief move the cursor right
+ */
+void __yutsuos_vga_move_right(void)
+{
+    if (vga.index < YUTSUOS_VGA_SIZE - 1)
+    {
+        yutsuos_vga_set_index(vga.index + 1);
+    }
+}
+
+/**
+ * @brief move the cursor up
+ */
+void __yutsuos_vga_move_up(void)
+{
+    for (u32 i = 0; i < YUTSUOS_VGA_SIZE - YUTSUOS_VGA_COLUMNS; i++)
+    {
+        vga.buffer[i] = vga.buffer[i + YUTSUOS_VGA_COLUMNS];
+    }
+    for (u32 i = YUTSUOS_VGA_SIZE - YUTSUOS_VGA_COLUMNS; i < YUTSUOS_VGA_SIZE; i++)
+    {
+        vga.buffer[i] = YUTSUOS_VGA_BLANK;
+    }
+}
+
+/**
+ * @brief move the cursor down
+ */
+void __yutsuos_vga_move_down(void)
+{
+    const u32 current_row = vga.index / YUTSUOS_VGA_COLUMNS;
+
+    if (current_row < YUTSUOS_VGA_ROWS - 1)
+    {
+        yutsuos_vga_set_index(vga.index + YUTSUOS_VGA_COLUMNS);
+    }
+    else
+    {
+        __yutsuos_vga_move_up();
+        yutsuos_vga_set_index(YUTSUOS_VGA_SIZE - YUTSUOS_VGA_COLUMNS);
+    }
+}
+
+/**
  * @brief put a character on the screen at the current cursor position
  * @param c the character to put
  * @param color the color attribute (foreground and background colors)
  */
-void yutsuos_vga_putchar(const char c, const u8 color)
+void __yutsuos_core_vga_putchar(const char c, const u8 color)
 {
     if (c == '\n')
     {
@@ -157,12 +153,12 @@ void yutsuos_vga_putchar(const char c, const u8 color)
 
     if (vga.index >= YUTSUOS_VGA_SIZE)
     {
-        yutsuos_vga_move_up();
+        __yutsuos_vga_move_up();
         vga.index = (YUTSUOS_VGA_SIZE - YUTSUOS_VGA_COLUMNS) + (vga.index % YUTSUOS_VGA_COLUMNS);
     }
 
     vga.buffer[vga.index] = (u16)c | (u16)color << 8;
-    yutsuos_vga_move_right();
+    __yutsuos_vga_move_right();
 }
 
 /**
@@ -170,19 +166,32 @@ void yutsuos_vga_putchar(const char c, const u8 color)
  * @param str the string to put
  * @param color the color attribute (foreground and background colors)
  */
-void yutsuos_vga_putstring(const char *str, const u8 color)
+void __yutsuos_core_vga_putstr(const char *str, const u8 color)
 {
     for (u32 i = 0; str[i] != '\0'; ++i)
     {
-        yutsuos_vga_putchar(str[i], color);
+        __yutsuos_core_vga_putchar(str[i], color);
     }
+}
+
+/**
+ * @brief put a number on the screen starting at the current cursor position
+ * @param num the number to put
+ * @param color the color attribute (foreground and background colors)
+ */
+void __yutsuos_core_vga_putnbr(const i32 num, const u8 color)
+{
+    char buf[12];
+    const char *str = itoa(num, buf, sizeof(buf));
+
+    __yutsuos_core_vga_putstr(str, color);
 }
 
 /**
  * @brief clear the screen
  * @details fills the VGA buffer with blank characters and resets the cursor position
  */
-void yutsuos_vga_clear_screen(void)
+void __yutsuos_core_vga_clear(void)
 {
     for (u32 i = 0; i < YUTSUOS_VGA_SIZE; i++)
     {
