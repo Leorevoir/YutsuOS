@@ -13,4 +13,5 @@ void error(const char *fmt, ...)
 
     show_color(RED, "ERROR: ");
     show_impl(BRIGHT_RED, fmt, args);
+    show("\n");
 }

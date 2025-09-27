@@ -50,4 +50,6 @@ i32 strcmp(const char *s1, const char *s2);
  */
 i32 strncmp(const char *s1, const char *s2, const u32 n);
 
+void *memcpy(void *dest, const void *src, u32 n);
+
 #endif /* YUTSUOS_STD_STRING_H */

@@ -23,7 +23,7 @@ static inline u8 _input_get_key(bool *is_break)
     if (keycode & YUTSUOS_MAX_KEYCODES)
     {
         *is_break = true;
-        keycode &= 0x7F; ///<< remove the break bit to get base scan code
+        keycode &= YUTSUOS_KEYBOARD_BREAK_CODE_OFFSET; ///<< remove the break bit to get base scan code
     }
     else if (keycode == YUTSUOS_KEYBOARD_EXTENDED)
     {
@@ -31,7 +31,7 @@ static inline u8 _input_get_key(bool *is_break)
         if (extended_key & YUTSUOS_MAX_KEYCODES)
         {
             *is_break = true;
-            extended_key &= 0x7F;
+            extended_key &= YUTSUOS_KEYBOARD_BREAK_CODE_OFFSET;
         }
         // TODO : handle extended keys
         return 0;
@@ -92,7 +92,9 @@ void input(char *buffer, const u32 size)
         const u8 keycode = _input_get_key(&is_break);
 
         if (keycode == 0)
+        {
             continue;
+        }
 
         if (_input_handle_shift(keycode, is_break))
         {
