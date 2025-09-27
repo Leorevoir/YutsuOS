@@ -130,4 +130,7 @@ u8 get_key(void);
  */
 char get_char(const u8 keycode, bool shift);
 
+void yutsu_set_keyboard_layout(const KeyboardLayout layout);
+KeyboardLayout yutsu_get_keyboard_layout(void);
+
 #endif /* YUTSUOS_CORE_KEYBOARD_H */

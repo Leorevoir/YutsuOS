@@ -14,7 +14,7 @@
  * use \xHH for non-ASCII
  * 0 indicates no mapping or special/modifier key
  */
-static const char __keymap_unshifted[YUTSUOS_MAX_KEYCODES] = {
+static const char __keymap_azerty_unshifted[YUTSUOS_MAX_KEYCODES] = {
     [KEY_NONE]          = 0,
     [KEY_ESC]           = 27,       ///<< ECHAP (Esc)
     [KEY_1]             = '&',      ///<< & (unshifted)
@@ -109,7 +109,7 @@ static const char __keymap_unshifted[YUTSUOS_MAX_KEYCODES] = {
  * use \xHH for non-ASCII
  * 0 indicates no mapping or special/modifier key
  */
-static const char __keymap_shifted[YUTSUOS_MAX_KEYCODES] = {
+static const char __keymap_azerty_shifted[YUTSUOS_MAX_KEYCODES] = {
     [KEY_NONE]          = 0,
     [KEY_ESC]           = 27,
     [KEY_1]             = '1',
@@ -197,6 +197,186 @@ static const char __keymap_shifted[YUTSUOS_MAX_KEYCODES] = {
     [0x56]              = '>',
 };
 
+static const char __keymap_qwerty_unshifted[YUTSUOS_MAX_KEYCODES] = {
+    [KEY_NONE] = 0,
+    [KEY_ESC] = 27,
+    [KEY_1] = '1',
+    [KEY_2] = '2',
+    [KEY_3] = '3',
+    [KEY_4] = '4',
+    [KEY_5] = '5',
+    [KEY_6] = '6',
+    [KEY_7] = '7',
+    [KEY_8] = '8',
+    [KEY_9] = '9',
+    [KEY_0] = '0',
+    [KEY_MINUS] = '-',
+    [KEY_EQUALS] = '=',
+    [KEY_BACKSPACE] = '\b',
+    [KEY_TAB] = '\t',
+    [KEY_Q] = 'q',
+    [KEY_W] = 'w',
+    [KEY_E] = 'e',
+    [KEY_R] = 'r',
+    [KEY_T] = 't',
+    [KEY_Y] = 'y',
+    [KEY_U] = 'u',
+    [KEY_I] = 'i',
+    [KEY_O] = 'o',
+    [KEY_P] = 'p',
+    [KEY_LEFT_BRACKET] = '[',
+    [KEY_RIGHT_BRACKET] = ']',
+    [KEY_ENTER] = '\n',
+    [KEY_LEFT_CTRL] = 0,
+    [KEY_A] = 'a',
+    [KEY_S] = 's',
+    [KEY_D] = 'd',
+    [KEY_F] = 'f',
+    [KEY_G] = 'g',
+    [KEY_H] = 'h',
+    [KEY_J] = 'j',
+    [KEY_K] = 'k',
+    [KEY_L] = 'l',
+    [KEY_SEMICOLON] = ';',
+    [KEY_SINGLE_QUOTE] = '\'',
+    [KEY_GRAVE] = '`',
+    [KEY_LEFT_SHIFT] = 0,
+    [KEY_BACKSLASH] = '\\',
+    [KEY_Z] = 'z',
+    [KEY_X] = 'x',
+    [KEY_C] = 'c',
+    [KEY_V] = 'v',
+    [KEY_B] = 'b',
+    [KEY_N] = 'n',
+    [KEY_M] = 'm',
+    [KEY_COMMA] = ',',
+    [KEY_PERIOD] = '.',
+    [KEY_SLASH] = '/',
+    [KEY_RIGHT_SHIFT] = 0,
+    [KEY_KP_MULTIPLY] = '*',
+    [KEY_LEFT_ALT] = 0,
+    [KEY_SPACE] = ' ',
+    [KEY_CAPS_LOCK] = 0,
+    [KEY_F1] = 0,
+    [KEY_F2] = 0,
+    [KEY_F3] = 0,
+    [KEY_F4] = 0,
+    [KEY_F5] = 0,
+    [KEY_F6] = 0,
+    [KEY_F7] = 0,
+    [KEY_F8] = 0,
+    [KEY_F9] = 0,
+    [KEY_F10] = 0,
+    [KEY_NUM_LOCK] = 0,
+    [KEY_SCROLL_LOCK] = 0,
+    [KEY_KP_7] = '7',
+    [KEY_KP_8] = '8',
+    [KEY_KP_9] = '9',
+    [KEY_KP_MINUS] = '-',
+    [KEY_KP_4] = '4',
+    [KEY_KP_5] = '5',
+    [KEY_KP_6] = '6',
+    [KEY_KP_PLUS] = '+',
+    [KEY_KP_1] = '1',
+    [KEY_KP_2] = '2',
+    [KEY_KP_3] = '3',
+    [KEY_KP_0] = '0',
+    [KEY_KP_PERIOD] = '.',
+    [0x56] = '\\',
+};
+
+static const char __keymap_qwerty_shifted[YUTSUOS_MAX_KEYCODES] = {
+    [KEY_NONE] = 0,
+    [KEY_ESC] = 27,
+    [KEY_1] = '!',
+    [KEY_2] = '@',
+    [KEY_3] = '#',
+    [KEY_4] = '$',
+    [KEY_5] = '%',
+    [KEY_6] = '^',
+    [KEY_7] = '&',
+    [KEY_8] = '*',
+    [KEY_9] = '(',
+    [KEY_0] = ')',
+    [KEY_MINUS] = '_',
+    [KEY_EQUALS] = '+',
+    [KEY_BACKSPACE] = '\b',
+    [KEY_TAB] = '\t',
+    [KEY_Q] = 'Q',
+    [KEY_W] = 'W',
+    [KEY_E] = 'E',
+    [KEY_R] = 'R',
+    [KEY_T] = 'T',
+    [KEY_Y] = 'Y',
+    [KEY_U] = 'U',
+    [KEY_I] = 'I',
+    [KEY_O] = 'O',
+    [KEY_P] = 'P',
+    [KEY_LEFT_BRACKET] = '{',
+    [KEY_RIGHT_BRACKET] = '}',
+    [KEY_ENTER] = '\n',
+    [KEY_LEFT_CTRL] = 0,
+    [KEY_A] = 'A',
+    [KEY_S] = 'S',
+    [KEY_D] = 'D',
+    [KEY_F] = 'F',
+    [KEY_G] = 'G',
+    [KEY_H] = 'H',
+    [KEY_J] = 'J',
+    [KEY_K] = 'K',
+    [KEY_L] = 'L',
+    [KEY_SEMICOLON] = ':',
+    [KEY_SINGLE_QUOTE] = '"',
+    [KEY_GRAVE] = '~',
+    [KEY_LEFT_SHIFT] = 0,
+    [KEY_BACKSLASH] = '|',
+    [KEY_Z] = 'Z',
+    [KEY_X] = 'X',
+    [KEY_C] = 'C',
+    [KEY_V] = 'V',
+    [KEY_B] = 'B',
+    [KEY_N] = 'N',
+    [KEY_M] = 'M',
+    [KEY_COMMA] = '<',
+    [KEY_PERIOD] = '>',
+    [KEY_SLASH] = '?',
+    [KEY_RIGHT_SHIFT] = 0,
+    [KEY_KP_MULTIPLY] = '*',
+    [KEY_LEFT_ALT] = 0,
+    [KEY_SPACE] = ' ',
+    [KEY_CAPS_LOCK] = 0,
+    [KEY_F1] = 0,
+    [KEY_F2] = 0,
+    [KEY_F3] = 0,
+    [KEY_F4] = 0,
+    [KEY_F5] = 0,
+    [KEY_F6] = 0,
+    [KEY_F7] = 0,
+    [KEY_F8] = 0,
+    [KEY_F9] = 0,
+    [KEY_F10] = 0,
+    [KEY_NUM_LOCK] = 0,
+    [KEY_SCROLL_LOCK] = 0,
+    [KEY_KP_7] = '7',
+    [KEY_KP_8] = '8',
+    [KEY_KP_9] = '9',
+    [KEY_KP_MINUS] = '-',
+    [KEY_KP_4] = '4',
+    [KEY_KP_5] = '5',
+    [KEY_KP_6] = '6',
+    [KEY_KP_PLUS] = '+',
+    [KEY_KP_1] = '1',
+    [KEY_KP_2] = '2',
+    [KEY_KP_3] = '3',
+    [KEY_KP_0] = '0',
+    [KEY_KP_PERIOD] = '.',
+    [0x56] = '|',
+};
+
+static KeyboardLayout __keymap_current_layout = LAYOUT_AZERTY;
+static const char *__keymap_unshifted = __keymap_azerty_unshifted;
+static const char *__keymap_shifted = __keymap_azerty_shifted;
+
 // clang-format on
 
 /**
@@ -231,4 +411,31 @@ char get_char(const u8 keycode, bool shift)
         return 0;
     }
     return shift ? __keymap_shifted[keycode] : __keymap_unshifted[keycode];
+}
+
+void yutsu_set_keyboard_layout(const KeyboardLayout layout)
+{
+    if (__keymap_current_layout == layout)
+    {
+        return;
+    }
+    __keymap_current_layout = layout;
+    switch (layout)
+    {
+    case LAYOUT_AZERTY:
+        __keymap_shifted = __keymap_azerty_shifted;
+        __keymap_unshifted = __keymap_azerty_unshifted;
+        break;
+    case LAYOUT_QWERTY:
+        __keymap_shifted = __keymap_qwerty_shifted;
+        __keymap_unshifted = __keymap_qwerty_unshifted;
+        break;
+    default:
+        break;
+    }
+}
+
+KeyboardLayout yutsu_get_keyboard_layout(void)
+{
+    return __keymap_current_layout;
 }

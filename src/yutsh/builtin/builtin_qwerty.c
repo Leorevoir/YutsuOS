@@ -1,8 +1,10 @@
 #include <YutsuOS/macros.h>
 #include <YutsuOS/yutsh/builtin.h>
 
-u8 yutsu_builtin_qwerty(const Array *args)
+#include <YutsuOS/core/keyboard.h>
+
+u8 yutsu_builtin_qwerty(const Array YUTSUOS_UNUSED *args)
 {
-    // TODO
-    return 1;
+    yutsu_set_keyboard_layout(LAYOUT_QWERTY);
+    return YUTSUOS_SUCCESS;
 }
