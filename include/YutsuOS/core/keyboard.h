@@ -106,6 +106,11 @@ typedef enum KeyCode : u8 {
     KEY_KP_PERIOD       = 0x53,
 } KeyCode;
 
+typedef enum KeyboardLayout : u8 {
+    LAYOUT_AZERTY       = 0,
+    LAYOUT_QWERTY       = 1 << 0,
+} KeyboardLayout;
+
 // clang-format on
 
 /**
