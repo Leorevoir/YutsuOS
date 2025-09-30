@@ -14,6 +14,7 @@ typedef enum : u8 {
     YUTSH_BUILTIN_SHUTDOWN,
     YUTSH_BUILTIN_UPTIME,
     YUTSH_BUILTIN_HELP,
+    YUTSH_BUILTIN_CLEAR,
     YUTSH_BUILTIN_COUNT
 } YutshBuiltins;
 
@@ -24,6 +25,7 @@ typedef enum : u8 {
     [YUTSH_BUILTIN_REBOOT]      = "reboot",                 \
     [YUTSH_BUILTIN_SHUTDOWN]    = "shutdown",               \
     [YUTSH_BUILTIN_UPTIME]      = "uptime",                 \
+    [YUTSH_BUILTIN_CLEAR]       = "clear",                  \
     [YUTSH_BUILTIN_HELP]        = "help"                    \
 
 #define YUTSUOS_YUTSH_BUILTIN_FUNCS                         \
@@ -33,6 +35,7 @@ typedef enum : u8 {
     [YUTSH_BUILTIN_REBOOT]      = yutsu_builtin_reboot,     \
     [YUTSH_BUILTIN_SHUTDOWN]    = yutsu_builtin_shutdown,   \
     [YUTSH_BUILTIN_UPTIME]      = yutsu_builtin_uptime,     \
+    [YUTSH_BUILTIN_CLEAR]       = yutsu_builtin_clear,      \
     [YUTSH_BUILTIN_HELP]        = yutsu_builtin_help
 
 #define YUTSUOS_YUTSH_BUILTIN_HELPS                          \
@@ -42,6 +45,7 @@ typedef enum : u8 {
     [YUTSH_BUILTIN_REBOOT]      = "Reboot the system",       \
     [YUTSH_BUILTIN_SHUTDOWN]    = "Shutdown the system",     \
     [YUTSH_BUILTIN_UPTIME]      = "Show system uptime",      \
+    [YUTSH_BUILTIN_CLEAR]       = "Clear the terminal",      \
     [YUTSH_BUILTIN_HELP]        = "Show this help message"
 
 // clang-format on
@@ -59,6 +63,7 @@ u8 yutsu_builtin_reboot(const Array *args);
 u8 yutsu_builtin_shutdown(const Array *args);
 u8 yutsu_builtin_uptime(const Array *args);
 u8 yutsu_builtin_help(const Array *args);
+u8 yutsu_builtin_clear(const Array *args);
 
 /**
  * @brief getter
