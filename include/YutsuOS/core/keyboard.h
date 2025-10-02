@@ -106,6 +106,11 @@ typedef enum KeyCode : u8 {
     KEY_KP_PERIOD       = 0x53,
 } KeyCode;
 
+typedef enum KeyboardLayout : u8 {
+    LAYOUT_AZERTY       = 0,
+    LAYOUT_QWERTY       = 1 << 0,
+} KeyboardLayout;
+
 // clang-format on
 
 /**
@@ -124,5 +129,8 @@ u8 get_key(void);
  * @return corresponding ASCII char | 0 if none.
  */
 char get_char(const u8 keycode, bool shift);
+
+void yutsu_set_keyboard_layout(const KeyboardLayout layout);
+KeyboardLayout yutsu_get_keyboard_layout(void);
 
 #endif /* YUTSUOS_CORE_KEYBOARD_H */

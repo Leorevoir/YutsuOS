@@ -75,6 +75,14 @@ static void yutsuos_vga_putnl(void)
     }
 }
 
+static u16 yutsuos_vga_get_tab_spaces(void)
+{
+    const u16 col = vga.index % YUTSUOS_VGA_COLUMNS;
+    const u16 spaces = YUTSUOS_VGA_TAB_WIDTH - (col % YUTSUOS_VGA_TAB_WIDTH);
+
+    return spaces;
+}
+
 /**
  * public functions
  */
@@ -145,10 +153,23 @@ void __yutsuos_vga_move_down(void)
  */
 void __yutsuos_core_vga_putchar(const char c, const u8 color)
 {
-    if (c == '\n')
+    switch (c)
     {
+    case '\n':
         yutsuos_vga_putnl();
         return;
+    case '\t':
+        for (u16 i = 0; i < yutsuos_vga_get_tab_spaces(); ++i)
+        {
+            __yutsuos_core_vga_putchar(' ', color);
+        }
+        return;
+    case '\r':
+        vga.index -= (vga.index % YUTSUOS_VGA_COLUMNS);
+        yutsuos_vga_set_index(vga.index);
+        return;
+    default:
+        break;
     }
 
     if (vga.index >= YUTSUOS_VGA_SIZE)
