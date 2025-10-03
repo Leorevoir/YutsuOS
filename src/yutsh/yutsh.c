@@ -20,6 +20,11 @@ static inline bool yutsu_shell_buffer_overflow(const char *buffer)
 
 static u8 yutsu_shell_execute(const char *buffer)
 {
+    if (!buffer || !*buffer)
+    {
+        return YUTSUOS_SUCCESS;
+    }
+
     const Array args = array_from_string(buffer, ' ');
 
     return yutsu_parse_builtin_command(&args);

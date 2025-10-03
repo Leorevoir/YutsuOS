@@ -22,6 +22,18 @@ char *itoa(const i32 num, char *buf, const u32 bufsize);
 void *memset(void *ptr, const int value, const u32 num);
 
 /**
+ * @brief compare two blocks of memory
+ * @param ptr1 pointer to the first block of memory
+ * @param ptr2 pointer to the second block of memory
+ * @param num number of bytes to compare
+ * @return
+ *   - 0 if the blocks are equal
+ *   - <0 if ptr1 is less than ptr2
+ *   - >0 if ptr1 is greater than ptr2
+ */
+i32 memcmp(const void *ptr1, const void *ptr2, const u32 num);
+
+/**
  * @brief return the length of a null-terminated string
  * @param str the string to measure
  */
