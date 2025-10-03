@@ -1,0 +1,38 @@
+name: Project checker runner
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: ./scripts/dependencies.sh
+
+      - name: Run build.sh debug mode
+        run: |
+          if ! ./build.sh -d; then
+            exit 84
+          fi
+
+      - name: Run build.sh fclean mode
+        run: |
+          if ! ./build.sh -f; then
+            exit 84
+          fi
+
+      - name: Run build.sh release mode
+        run: |
+          if ! ./build.sh; then
+            exit 84
+          fi
