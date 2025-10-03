@@ -26,3 +26,13 @@ void __yutsuos_core_io_outb(const u16 port, const u8 value)
 {
     __asm__ __volatile__("outb %[value], %[port]" : : [value] "a"(value), [port] "Nd"(port));
 }
+
+/**
+ * @brief read a word from the specified port
+ * @param port the port to write to (16-bit)
+ * @param value the value to write (16-bit)
+ */
+void __yutsuos_core_io_outw(const u16 port, const u16 value)
+{
+    __asm__ __volatile__("outw %[value], %[port]" : : [value] "a"(value), [port] "Nd"(port));
+}
