@@ -4,7 +4,9 @@ on:
   push:
     branches:
       - main
-      - feat/CI-CD
+  pull_request:
+    branches:
+      - main
 
 jobs:
   deploy:
