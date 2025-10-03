@@ -1,33 +1,62 @@
 bits 32
 
+ACPI_SHUTDOWN_PORT1 equ 0xB004
+ACPI_SHUTDOWN_PORT2 equ 0x604
+ACPI_SHUTDOWN_PORT3 equ 0x4004
+
+ACPI_SHUTDOWN_SIGNAL1 equ 0x2000
+ACPI_SHUTDOWN_SIGNAL2 equ 0x3400
+
+KEYBOARD_CTRL_PORT equ 0x64
+KEYBOARD_DATA_PORT equ 0x60
+
+RESET_CPU equ 0xFE
+FORCE_INTERRUPT equ 0x03
+
 section .text
-%macro  __registers_reset 0
-xor     eax, eax
-xor     ebx, ebx
-xor     ecx, ecx
-xor     edx, edx
-xor     esi, esi
-xor     edi, edi
-xor     ebp, ebp
-xor     esp, esp
-%endmacro
 
-global __yutsuos_core_kernel_qemu_reboot
+	;---------------------------------------------
+	;      void __yutsuos_core_kernel_reboot(void)
+	;---------------------------------------------
+	global __yutsuos_core_kernel_reboot
 
-__yutsuos_core_kernel_qemu_reboot:
-	__registers_reset
-	mov eax, 0x2000
-	mov edx, 0x604
-	out dx, eax
+__yutsuos_core_kernel_reboot:
+	mov al, RESET_CPU
+	out KEYBOARD_CTRL_PORT, al
+
+	lidt [.invalid_idt]
+	int  FORCE_INTERRUPT
+
+	in  al, 0x92
+	or  al, 0x01
+	out 0x92, al
+
 	hlt
 	ret
 
-global __yutsuos_core_kernel_qemu_shutdown
+.invalid_idt:
+	dw 0
+	dd 0
 
-__yutsuos_core_kernel_qemu_shutdown:
-	__registers_reset
-	mov eax, 0x2000
-	mov edx, 0x604
-	out dx, eax
+	;---------------------------------------------
+	;      void __yutsuos_core_kernel_shutdown(void)
+	;---------------------------------------------
+	global __yutsuos_core_kernel_shutdown
+
+	%macro __shutdown 1
+	mov    ax, %1
+	out    dx, ax
+	%endmacro
+
+__yutsuos_core_kernel_shutdown:
+	mov dx, ACPI_SHUTDOWN_PORT1
+	__shutdown ACPI_SHUTDOWN_SIGNAL1
+
+	mov dx, ACPI_SHUTDOWN_PORT2
+	__shutdown ACPI_SHUTDOWN_SIGNAL1
+
+	mov dx, ACPI_SHUTDOWN_PORT3
+	__shutdown ACPI_SHUTDOWN_SIGNAL2
+
 	hlt
 	ret

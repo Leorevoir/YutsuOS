@@ -1,3 +1,4 @@
+#include <YutsuOS/macros.h>
 #include <YutsuOS/std/array.h>
 #include <YutsuOS/std/memory.h>
 #include <YutsuOS/std/string.h>
@@ -11,7 +12,7 @@
  * public
  */
 
-Array array_from_string(const char *str, const char delimiter)
+Array array_from_string(const char *str, const char YUTSUOS_UNUSED delimiter)
 {
     Array args = {.size = 0, .data = NULL};
 
@@ -20,7 +21,5 @@ Array array_from_string(const char *str, const char delimiter)
         return args;
     }
     args.data[args.size] = str;
-    (void)delimiter;
-
     return args;
 }
