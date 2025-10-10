@@ -45,6 +45,7 @@ static void show_dispatch(const char **out_ptr, int **out_args, const u8 color)
         show_str(out_args, color);
         break;
     case 'd':
+    case 'u':
         show_number(out_args, color);
         break;
     default:

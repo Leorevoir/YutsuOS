@@ -1,17 +1,12 @@
-#include <YutsuOS/core/vga.h>
-#include <YutsuOS/yutsh/yutsh.h>
-
+// #include "YutsuOS/core/panic.h"
+#include <YutsuOS/core/kernel.h>
 #include <YutsuOS/macros.h>
-
-static void yutsuos_show_banner(void)
-{
-    __yutsuos_core_vga_putstr(YUTSUOS_BANNER, CYAN);
-}
+#include <YutsuOS/yutsh/yutsh.h>
 
 int main(void)
 {
-    __yutsuos_core_vga_clear();
-    yutsuos_show_banner();
+    __yutsuos_core_kernel_init();
+    // panic("Kernel panic test");
     yutsu_shell();
     return YUTSUOS_SUCCESS;
 }
