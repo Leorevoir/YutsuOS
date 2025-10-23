@@ -5,6 +5,31 @@
 
 #define is_space(c) ((c) == ' ' || (c) == '\t' || (c) == '\n' || (c) == '\r')
 
+#define trim_start(str)                                                                                                \
+    do                                                                                                                 \
+    {                                                                                                                  \
+        while (is_space(*(str)))                                                                                       \
+        {                                                                                                              \
+            ++(str);                                                                                                   \
+        }                                                                                                              \
+    } while (0)
+
+#define trim_end(str, len)                                                                                             \
+    do                                                                                                                 \
+    {                                                                                                                  \
+        while ((len) > 0 && is_space((str)[(len) - 1]))                                                                \
+        {                                                                                                              \
+            --(len);                                                                                                   \
+        }                                                                                                              \
+    } while (0)
+
+#define trim(str, len)                                                                                                 \
+    do                                                                                                                 \
+    {                                                                                                                  \
+        trim_start(str);                                                                                               \
+        trim_end(str, len);                                                                                            \
+    } while (0)
+
 /**
  * @brief duplicate a null-terminated string
  * @param str pointer to the string to duplicate
