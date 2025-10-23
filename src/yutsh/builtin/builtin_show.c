@@ -2,21 +2,26 @@
 #include <YutsuOS/std/io.h>
 #include <YutsuOS/yutsh/builtin.h>
 
+/**
+ * public
+ */
+
 u8 yutsu_builtin_show(const Array *args)
 {
-    switch (args->size)
+    if (args->size < 2)
     {
-    case 0:
-        error("show: what do you want to show?????");
-        return 1;
-    case 1:
-        show(args->data[0]);
-        return 0;
-    default:
-        for (u32 i = 0; i < args->size; i++)
-        {
-            show(args->data[i]);
-        }
+        show("\n");
         return YUTSUOS_SUCCESS;
     }
+
+    for (u32 i = 1; i < args->size; ++i)
+    {
+        show(args->data[i]);
+        if (i < args->size - 1)
+        {
+            show(" ");
+        }
+    }
+    show("\n");
+    return YUTSUOS_SUCCESS;
 }

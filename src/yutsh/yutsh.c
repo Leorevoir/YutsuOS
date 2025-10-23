@@ -25,7 +25,12 @@ static u8 yutsu_shell_execute(const char *buffer)
         return YUTSUOS_SUCCESS;
     }
 
-    const Array args = array_from_string(buffer, ' ');
+    defer_array_free Array args = array_from_string(buffer);
+
+    if (args.data == NULL)
+    {
+        return YUTSUOS_SUCCESS;
+    }
 
     return yutsu_parse_builtin_command(&args);
 }
