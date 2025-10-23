@@ -3,6 +3,23 @@
 
 #include <YutsuOS/std/types.h>
 
+#define is_space(c) ((c) == ' ' || (c) == '\t' || (c) == '\n' || (c) == '\r')
+
+/**
+ * @brief duplicate a null-terminated string
+ * @param str pointer to the string to duplicate
+ * @return pointer to the newly allocated string, or NULL on failure
+ */
+char *strdup(const char *str);
+
+/**
+ * @brief duplicate a string up to a maximum length
+ * @param start pointer to the start of the string
+ * @param len maximum length of the string to duplicate
+ * @return pointer to the newly allocated string, or NULL on failure
+ */
+char *strndup(const char *start, u32 len);
+
 /**
  * @brief convert an integer to a char *
  * @details the buffer must be at least 12 bytes long to hold the largest possible integer
