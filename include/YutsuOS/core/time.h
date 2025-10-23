@@ -17,13 +17,14 @@ typedef struct Time
 } Time;
 
 /**
- * @brief initialize the system timer
+ * @brief Initializes the Programmable Interval Timer (PIT).
  */
-void __yutsuos_core_init_timer(void);
+void __yutsuos_core_timer_init(void);
 
 /**
- * @brief fill Time structure with the current system uptime
+ * @brief Get the system uptime.
+ * @param uptime out parameter to store the uptime.
  */
-void __yutsuos_core_get_uptime(Time *time);
+void __yutsuos_core_get_uptime(Time *uptime);
 
 #endif /* YUTSUOS_CORE_TIME_H */

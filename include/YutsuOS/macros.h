@@ -18,4 +18,15 @@
     "    |__/   \\______/    \\___/ |_______/  \\______/  \\______/  \\______/\n"                                      \
     "\n"
 
+#define forever                                                                                                        \
+    for (;;)                                                                                                           \
+    {                                                                                                                  \
+        __asm__ __volatile__("hlt");                                                                                   \
+    }
+
+#define wait_for(func)                                                                                                 \
+    __asm__ __volatile__("cli");                                                                                       \
+    (func);                                                                                                            \
+    __asm__ __volatile__("sti");
+
 #endif /* YUTSUOS_MACROS_H */
