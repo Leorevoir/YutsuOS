@@ -404,6 +404,19 @@ u8 get_key(void)
 }
 
 /**
+ * @brief get a raw scan code from the keyboard without blocking.
+ * @return raw scan code (u8) if a key is available, 0 otherwise.
+ */
+u8 get_key_non_blocking(void)
+{
+    if (__yutsuos_core_io_inb(YUTSUOS_STATUS_PORT) & YUTSUOS_STATUS_BUFFER_FULL)
+    {
+        return __yutsuos_core_io_inb(YUTSUOS_DATA_PORT);
+    }
+    return 0;
+}
+
+/**
  * @brief get an ASCII char from the u8 PS/2 keycode
  * @details supports basic FR AZERY layout
  * TODO: support for other layouts like US QWERTY
