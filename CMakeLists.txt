@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(yutsuos LANGUAGES C ASM_NASM VERSION 0.0.1)
+project(yutsuos LANGUAGES C ASM_NASM VERSION 0.0.2)
 
 ########################################
 

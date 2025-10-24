@@ -13,6 +13,7 @@ typedef enum : u8 {
     YUTSH_BUILTIN_REBOOT,
     YUTSH_BUILTIN_SHUTDOWN,
     YUTSH_BUILTIN_UPTIME,
+    YUTSH_BUILTIN_DATE,
     YUTSH_BUILTIN_HELP,
     YUTSH_BUILTIN_CLEAR,
     YUTSH_BUILTIN_COUNT
@@ -25,8 +26,9 @@ typedef enum : u8 {
     [YUTSH_BUILTIN_REBOOT]      = "reboot",                 \
     [YUTSH_BUILTIN_SHUTDOWN]    = "shutdown",               \
     [YUTSH_BUILTIN_UPTIME]      = "uptime",                 \
+    [YUTSH_BUILTIN_DATE]        = "date",                   \
     [YUTSH_BUILTIN_CLEAR]       = "clear",                  \
-    [YUTSH_BUILTIN_HELP]        = "help"                    \
+    [YUTSH_BUILTIN_HELP]        = "help"
 
 #define YUTSUOS_YUTSH_BUILTIN_FUNCS                         \
     [YUTSH_BUILTIN_SHOW]        = yutsu_builtin_show,       \
@@ -35,6 +37,7 @@ typedef enum : u8 {
     [YUTSH_BUILTIN_REBOOT]      = yutsu_builtin_reboot,     \
     [YUTSH_BUILTIN_SHUTDOWN]    = yutsu_builtin_shutdown,   \
     [YUTSH_BUILTIN_UPTIME]      = yutsu_builtin_uptime,     \
+    [YUTSH_BUILTIN_DATE]        = yutsu_builtin_date,       \
     [YUTSH_BUILTIN_CLEAR]       = yutsu_builtin_clear,      \
     [YUTSH_BUILTIN_HELP]        = yutsu_builtin_help
 
@@ -45,6 +48,7 @@ typedef enum : u8 {
     [YUTSH_BUILTIN_REBOOT]      = "Reboot the system",       \
     [YUTSH_BUILTIN_SHUTDOWN]    = "Shutdown the system",     \
     [YUTSH_BUILTIN_UPTIME]      = "Show system uptime",      \
+    [YUTSH_BUILTIN_DATE]        = "Show the current date and time", \
     [YUTSH_BUILTIN_CLEAR]       = "Clear the terminal",      \
     [YUTSH_BUILTIN_HELP]        = "Show this help message"
 
@@ -62,6 +66,7 @@ u8 yutsu_builtin_azerty(const Array *args);
 u8 yutsu_builtin_reboot(const Array *args);
 u8 yutsu_builtin_shutdown(const Array *args);
 u8 yutsu_builtin_uptime(const Array *args);
+u8 yutsu_builtin_date(const Array *args);
 u8 yutsu_builtin_help(const Array *args);
 u8 yutsu_builtin_clear(const Array *args);
 
