@@ -1,18 +1,20 @@
 #include <YutsuOS/core/vga.h>
-#include <YutsuOS/std/io.h>
 
-void show_impl(const u8 color, const char *fmt, int *args);
+#include <YutsuOS/std/io.h>
+#include <YutsuOS/std/string.h>
+
+void show_impl(const u8 color, const char *fmt, i32 *args);
 
 /**
  * static helpers
  */
 
-static inline void show_char(int **out_args, const u8 color)
+static inline void show_char(i32 **out_args, const u8 color)
 {
     __yutsuos_core_vga_putchar(*(*out_args)++, color);
 }
 
-static inline void show_str(int **out_args, const u8 color)
+static inline void show_str(i32 **out_args, const u8 color)
 {
     const char *str = *(const char **)(*out_args);
 
@@ -27,13 +29,42 @@ static inline void show_str(int **out_args, const u8 color)
     ++(*out_args);
 }
 
-static inline void show_number(int **out_args, const u8 color)
+static inline void show_number(i32 **out_args, const u8 color, const i32 min_width, const bool zero_pad)
 {
-    __yutsuos_core_vga_putnbr(*(*out_args)++, color);
+    char buf[12];
+    const i32 num = *(*out_args)++;
+    const char *str = itoa(num, buf, sizeof(buf));
+    const i32 len = strlen(str);
+
+    if (zero_pad)
+    {
+        for (i32 i = 0; i < min_width - len; ++i)
+        {
+            __yutsuos_core_vga_putchar('0', color);
+        }
+    }
+    __yutsuos_core_vga_putstr(str, color);
 }
 
-static void show_dispatch(const char **out_ptr, int **out_args, const u8 color)
+static void show_dispatch(const char **out_ptr, i32 **out_args, const u8 color)
 {
+    const char *p = *out_ptr;
+    bool zero_pad = false;
+    i32 min_width = 0;
+
+    if (*p == '0')
+    {
+        zero_pad = true;
+        p++;
+    }
+
+    while (*p >= '0' && *p <= '9')
+    {
+        min_width = min_width * 10 + (*p - '0');
+        p++;
+    }
+
+    *out_ptr = p;
     const char specifier = **out_ptr;
 
     switch (specifier)
@@ -46,14 +77,13 @@ static void show_dispatch(const char **out_ptr, int **out_args, const u8 color)
         break;
     case 'd':
     case 'u':
-        show_number(out_args, color);
+        show_number(out_args, color, min_width, zero_pad);
         break;
     default:
         __yutsuos_core_vga_putchar('%', color);
         __yutsuos_core_vga_putchar(specifier, color);
         break;
     }
-
     ++(*out_ptr);
 }
 
@@ -61,7 +91,7 @@ static void show_dispatch(const char **out_ptr, int **out_args, const u8 color)
  * internal implementation
  */
 
-void show_impl(const u8 color, const char *fmt, int *args)
+void show_impl(const u8 color, const char *fmt, i32 *args)
 {
     const char *p = fmt;
 
@@ -100,7 +130,7 @@ void show_impl(const u8 color, const char *fmt, int *args)
  */
 void show_color(const u8 color, const char *fmt, ...)
 {
-    int *args = (int *)(&fmt + 1);
+    i32 *args = (i32 *)(&fmt + 1);
 
     show_impl(color, fmt, args);
 }
@@ -112,7 +142,7 @@ void show_color(const u8 color, const char *fmt, ...)
  */
 void show(const char *fmt, ...)
 {
-    int *args = (int *)(&fmt + 1);
+    i32 *args = (i32 *)(&fmt + 1);
 
     show_impl(WHITE, fmt, args);
 }
