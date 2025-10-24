@@ -5,7 +5,6 @@
 /**
  * constants
  */
-
 #define CMOS_ADDRESS 0x70
 #define CMOS_DATA 0x71
 
@@ -18,51 +17,71 @@
 #define RTC_STATUS_A 0x0A
 #define RTC_STATUS_B 0x0B
 
+#define CONVERT_BCD_HOUR_TO_BINARY(hour) (((hour & 0x0F) + (((hour & 0x70) / 16) * 10)) | (hour & 0x80))
+#define BCD_TO_BINARY(value) (((value & 0x0F) + (((value & 0xF0) / 16) * 10)))
+
+/**
+ * static data
+ */
+static const char *g_day_names[7] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+
 /**
  * static helpers
  */
 
-static inline u8 bcd_to_bin(const u8 bcd)
-{
-    return ((bcd / 16) * 10) + (bcd & 0x0F);
-}
-
-static inline u8 read_rtc_register(const u8 reg)
+static inline u8 yutsuos_core_get_date_read_rtc_register(const u8 reg)
 {
     __yutsuos_core_io_outb(CMOS_ADDRESS, reg);
     return __yutsuos_core_io_inb(CMOS_DATA);
 }
 
-static inline i32 is_update_in_progress(void)
+static inline i32 yutsuos_core_get_date_is_update_in_progress(void)
 {
-    return read_rtc_register(RTC_STATUS_A) & 0x80;
+    return yutsuos_core_get_date_read_rtc_register(RTC_STATUS_A) & 0x80;
 }
 
-static inline void get_date_from_rtc(Date *date)
+/**
+ * @brief Calculates the day of the week using Sakamoto's algorithm.
+ * @param y Year
+ * @param m Month
+ * @param d Day
+ * @return The day of the week (0 for Sunday, 1 for Monday, etc.).
+ */
+static u8 yutsuos_core_get_date_day_name(u16 y, u8 m, u8 d)
 {
-    date->time.second = read_rtc_register(RTC_SECONDS);
-    date->time.minute = read_rtc_register(RTC_MINUTES);
-    date->time.hour = read_rtc_register(RTC_HOURS);
-    date->day = read_rtc_register(RTC_DAY);
-    date->month = read_rtc_register(RTC_MONTH);
-    date->year = read_rtc_register(RTC_YEAR);
+    static i32 t[] = {0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4};
+
+    if (m < 3)
+    {
+        y -= 1;
+    }
+    return (y + y / 4 - y / 100 + y / 400 + t[m - 1] + d) % 7;
 }
 
-static inline void convert_bcd_to_binary(Date *date, const u8 register_b)
+static inline void yutsuos_core_get_date_from_rtc(Date *date)
+{
+    date->time.second = yutsuos_core_get_date_read_rtc_register(RTC_SECONDS);
+    date->time.minute = yutsuos_core_get_date_read_rtc_register(RTC_MINUTES);
+    date->time.hour = yutsuos_core_get_date_read_rtc_register(RTC_HOURS);
+    date->day = yutsuos_core_get_date_read_rtc_register(RTC_DAY);
+    date->month = yutsuos_core_get_date_read_rtc_register(RTC_MONTH);
+    date->year = yutsuos_core_get_date_read_rtc_register(RTC_YEAR);
+}
+
+static inline void yutsuos_core_get_date_BCD_TO_BINARYary(Date *date, const u8 register_b)
 {
     if (!(register_b & 0x04))
     {
-        date->time.second = bcd_to_bin(date->time.second);
-        date->time.minute = bcd_to_bin(date->time.minute);
-        date->time.hour =
-            (((date->time.hour & 0x0F) + (((date->time.hour & 0x70) / 16) * 10)) | (date->time.hour & 0x80));
-        date->day = bcd_to_bin(date->day);
-        date->month = bcd_to_bin(date->month);
-        date->year = bcd_to_bin(date->year);
+        date->time.second = BCD_TO_BINARY(date->time.second);
+        date->time.minute = BCD_TO_BINARY(date->time.minute);
+        date->time.hour = CONVERT_BCD_HOUR_TO_BINARY(date->time.hour);
+        date->day = BCD_TO_BINARY(date->day);
+        date->month = BCD_TO_BINARY(date->month);
+        date->year = BCD_TO_BINARY(date->year);
     }
 }
 
-static inline void convert_12_to_24_hour(Date *date, const u8 register_b)
+static inline void yutsuos_core_get_date_12_to_24_hour(Date *date, const u8 register_b)
 {
     if (!(register_b & 0x02) && (date->time.hour & 0x80))
     {
@@ -73,17 +92,18 @@ static inline void convert_12_to_24_hour(Date *date, const u8 register_b)
 /**
  * public
  */
-
 void __yutsuos_core_get_date(Date *date)
 {
-    wait_for(is_update_in_progress());
-    get_date_from_rtc(date);
+    wait_for(yutsuos_core_get_date_is_update_in_progress());
+    yutsuos_core_get_date_from_rtc(date);
 
-    const u8 register_b = read_rtc_register(RTC_STATUS_B);
+    const u8 register_b = yutsuos_core_get_date_read_rtc_register(RTC_STATUS_B);
 
-    convert_bcd_to_binary(date, register_b);
-    convert_12_to_24_hour(date, register_b);
+    yutsuos_core_get_date_BCD_TO_BINARYary(date, register_b);
+    yutsuos_core_get_date_12_to_24_hour(date, register_b);
 
-    // TODO: handle century register
-    date->year += 2000;
+    date->year += 2000; //<<< TODO: handle century properly
+
+    const u8 day_index = yutsuos_core_get_date_day_name(date->year, date->month, date->day);
+    date->day_name = g_day_names[day_index];
 }

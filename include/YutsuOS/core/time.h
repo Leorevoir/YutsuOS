@@ -36,6 +36,7 @@ typedef struct Date
     u16 year;
     u8 month;
     u8 day;
+    const char *day_name;
     TimeOfDay time;
 } Date;
 

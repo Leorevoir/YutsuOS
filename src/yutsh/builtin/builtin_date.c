@@ -3,11 +3,19 @@
 #include <YutsuOS/std/io.h>
 #include <YutsuOS/yutsh/builtin.h>
 
-static void show_date(const Date *date)
+/**
+ * static helper
+ */
+
+static inline void show_date(const Date *date)
 {
-    show("%d-%02d-%02d %02d:%02d:%02d\n", date->year, date->month, date->day, date->time.hour, date->time.minute,
-         date->time.second);
+    show("%s, %d-%02d-%02d %02d:%02d:%02d\n", date->day_name, date->year, date->month, date->day, date->time.hour,
+         date->time.minute, date->time.second);
 }
+
+/**
+ * public
+ */
 
 u8 yutsu_builtin_date(const Array YUTSUOS_UNUSED *args)
 {
