@@ -55,3 +55,8 @@ void __yutsuos_core_get_uptime(Time *uptime)
     uptime->hours = total_hours % 24;
     uptime->days = total_hours / 24;
 }
+
+u32 __yutsuos_core_get_ticks(void)
+{
+    return g_timer_ticks;
+}

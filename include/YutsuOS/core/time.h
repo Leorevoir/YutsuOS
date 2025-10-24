@@ -57,4 +57,10 @@ void __yutsuos_core_get_uptime(Time *uptime);
  */
 void __yutsuos_core_get_date(Date *date);
 
+/**
+ * @brief Get the raw system timer ticks.
+ * @return The number of ticks since boot.
+ */
+u32 __yutsuos_core_get_ticks(void);
+
 #endif /* YUTSUOS_CORE_TIME_H */

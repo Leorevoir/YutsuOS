@@ -120,6 +120,12 @@ typedef enum KeyboardLayout : u8 {
 u8 get_key(void);
 
 /**
+ * @brief get a raw scan code from the keyboard without blocking.
+ * @return raw scan code (u8) if a key is available, 0 otherwise.
+ */
+u8 get_key_non_blocking(void);
+
+/**
  * @brief get an ASCII char from the u8 PS/2 keycode
  * @details supports basic FR AZERTY layout
  * TODO: support for other layouts like EN QWERTY

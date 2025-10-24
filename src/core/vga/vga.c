@@ -87,6 +87,17 @@ static u16 yutsuos_vga_get_tab_spaces(void)
  * public functions
  */
 
+void __yutsuos_core_vga_put_char_at(const u32 x, const u32 y, const char c, const u8 color)
+{
+    if (x >= YUTSUOS_VGA_COLUMNS || y >= YUTSUOS_VGA_ROWS)
+    {
+        return;
+    }
+    const u32 index = y * YUTSUOS_VGA_COLUMNS + x;
+
+    vga.buffer[index] = (u16)c | (u16)color << 8;
+}
+
 /**
  * move
  */
