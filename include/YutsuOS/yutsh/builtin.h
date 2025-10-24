@@ -16,6 +16,7 @@ typedef enum : u8 {
     YUTSH_BUILTIN_DATE,
     YUTSH_BUILTIN_HELP,
     YUTSH_BUILTIN_CLEAR,
+    YUTSH_BUILTIN_SNAKE,
     YUTSH_BUILTIN_COUNT
 } YutshBuiltins;
 
@@ -28,6 +29,7 @@ typedef enum : u8 {
     [YUTSH_BUILTIN_UPTIME]      = "uptime",                 \
     [YUTSH_BUILTIN_DATE]        = "date",                   \
     [YUTSH_BUILTIN_CLEAR]       = "clear",                  \
+    [YUTSH_BUILTIN_SNAKE]       = "snake",                  \
     [YUTSH_BUILTIN_HELP]        = "help"
 
 #define YUTSUOS_YUTSH_BUILTIN_FUNCS                         \
@@ -39,6 +41,7 @@ typedef enum : u8 {
     [YUTSH_BUILTIN_UPTIME]      = yutsu_builtin_uptime,     \
     [YUTSH_BUILTIN_DATE]        = yutsu_builtin_date,       \
     [YUTSH_BUILTIN_CLEAR]       = yutsu_builtin_clear,      \
+    [YUTSH_BUILTIN_SNAKE]       = yutsu_builtin_snake,      \
     [YUTSH_BUILTIN_HELP]        = yutsu_builtin_help
 
 #define YUTSUOS_YUTSH_BUILTIN_HELPS                          \
@@ -50,6 +53,7 @@ typedef enum : u8 {
     [YUTSH_BUILTIN_UPTIME]      = "Show system uptime",      \
     [YUTSH_BUILTIN_DATE]        = "Show the current date and time", \
     [YUTSH_BUILTIN_CLEAR]       = "Clear the terminal",      \
+    [YUTSH_BUILTIN_SNAKE]       = "Play snake with the VGA", \
     [YUTSH_BUILTIN_HELP]        = "Show this help message"
 
 // clang-format on
@@ -69,6 +73,7 @@ u8 yutsu_builtin_uptime(const Array *args);
 u8 yutsu_builtin_date(const Array *args);
 u8 yutsu_builtin_help(const Array *args);
 u8 yutsu_builtin_clear(const Array *args);
+u8 yutsu_builtin_snake(const Array *args);
 
 /**
  * @brief getter
