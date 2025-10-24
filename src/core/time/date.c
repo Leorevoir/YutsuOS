@@ -68,7 +68,7 @@ static inline void yutsuos_core_get_date_from_rtc(Date *date)
     date->year = yutsuos_core_get_date_read_rtc_register(RTC_YEAR);
 }
 
-static inline void yutsuos_core_get_date_BCD_TO_BINARYary(Date *date, const u8 register_b)
+static inline void yutsuos_core_get_date_bcd_to_binary(Date *date, const u8 register_b)
 {
     if (!(register_b & 0x04))
     {
@@ -99,7 +99,7 @@ void __yutsuos_core_get_date(Date *date)
 
     const u8 register_b = yutsuos_core_get_date_read_rtc_register(RTC_STATUS_B);
 
-    yutsuos_core_get_date_BCD_TO_BINARYary(date, register_b);
+    yutsuos_core_get_date_bcd_to_binary(date, register_b);
     yutsuos_core_get_date_12_to_24_hour(date, register_b);
 
     date->year += 2000; //<<< TODO: handle century properly
