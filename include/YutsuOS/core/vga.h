@@ -84,4 +84,13 @@ void __yutsuos_vga_move_up(void);
  */
 void __yutsuos_vga_move_down(void);
 
+/**
+ * @brief put a character on the screen at a specific (x, y) position.
+ * @param x the column
+ * @param y the row
+ * @param c the character to put
+ * @param color the color attribute
+ */
+void __yutsuos_core_vga_put_char_at(const u32 x, const u32 y, const char c, const u8 color);
+
 #endif /* YUTSUOS_VGA_H */
