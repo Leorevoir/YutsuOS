@@ -1,3 +1,4 @@
+#include <YutsuOS/core/vga.h>
 #include <YutsuOS/macros.h>
 
 #include <YutsuOS/std/io.h>
@@ -35,7 +36,8 @@ u8 yutsu_builtin_help(const Array __attribute__((unused)) * args)
     show("Yutsu Shell Builtin Commands:\n");
     for (u32 i = 0; i < YUTSH_BUILTIN_COUNT; ++i)
     {
-        show("  %s:\t \t\t%s\n", yutsu_builtin_commands[i], yutsu_builtin_helps[i]);
+        show_color(BRIGHT_CYAN, "  %s", yutsu_builtin_commands[i]);
+        show_color(GREEN, " - %s\n", yutsu_builtin_helps[i]);
     }
     return YUTSUOS_SUCCESS;
 }
