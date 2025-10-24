@@ -20,6 +20,31 @@ typedef enum : u8
 } YutshBuiltinTestsArgs;
 
 /**
+ * tests macros
+ */
+
+#define YUTSUOS_TEST_PASS(msg)                                                                                         \
+    show_color(BRIGHT_GREEN, "[PASS]\t");                                                                              \
+    show("%s\n", msg);
+
+#define YUTSUOS_TEST_FAIL(msg)                                                                                         \
+    show_color(BRIGHT_RED, "[FAIL]\t");                                                                                \
+    show("%s\n", msg);
+
+#define test_assert(cond, pass_msg, fail_msg)                                                                          \
+    do                                                                                                                 \
+    {                                                                                                                  \
+        if (cond)                                                                                                      \
+        {                                                                                                              \
+            YUTSUOS_TEST_PASS(pass_msg)                                                                                \
+        }                                                                                                              \
+        else                                                                                                           \
+        {                                                                                                              \
+            YUTSUOS_TEST_FAIL(fail_msg)                                                                                \
+        }                                                                                                              \
+    } while (0)
+
+/**
  * tests functions
  */
 
