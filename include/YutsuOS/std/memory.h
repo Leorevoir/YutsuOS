@@ -26,4 +26,15 @@ void *allocate(const u32 size);
  */
 void liberate(void *ptr);
 
+static inline void __out_liberate(void **ptr)
+{
+    if (ptr && *ptr)
+    {
+        liberate(*ptr);
+        *ptr = NULL;
+    }
+}
+
+#define defer_liberate __attribute__((cleanup(__out_liberate)))
+
 #endif /* YUTSUOS_STD_MEMORY_H */

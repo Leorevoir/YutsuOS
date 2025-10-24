@@ -52,6 +52,7 @@ u8 yutsu_builtin_tests(const Array *args)
 {
     if (args->size < 2)
     {
+        raise_error("yutsh: tests: missing argument, try tests --help\n");
         return YUTSUOS_FAILURE;
     }
     return yutsu_builtin_tests_parse_arguments(args);
