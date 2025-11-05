@@ -14,7 +14,7 @@
         <img src="https://img.shields.io/github/repo-size/Leorevoir/YutsuOS?color=C6A0F6&labelColor=303446&style=for-the-badge&logo=github&logoColor=C6A0F6">
      </a>
      <a href="https://github.com/Leorevoir/YutsuOS/blob/main/LICENSE">
-        <img src="https://img.shields.io/static/v1.svg?style=for-the-badge&label=License&message=GNU&colorA=313244&colorB=F5A97F&logo=unlicense&logoColor=F5A97F&"/>
+        <img src="https://img.shields.io/static/v1.svg?style=for-the-badge&label=License&message=GPL-3.0&colorA=313244&colorB=F5A97F&logo=unlicense&logoColor=F5A97F&"/>
      </a>
   </div>
   <br>
@@ -30,6 +30,8 @@
 ## Description
 
 YutsuOS was a project I made during my 3rd year at EPITECH. The goal was to discover the **real** kernel-level programming.
+
+![**showcase**](./assets/showcase.png)
 
 ## Installation
 
@@ -57,7 +59,17 @@ Run the OS in a Virtual Machine:
 ./build.sh --run
 ```
 
+## Tested on
+
+- EndeavourOS
+- Arch Linux
+- Ubuntu
+
 ---
+
+## Documentation
+
+See [**DOCUMENTATION**](../docs/README.md)
 
 ## License
 
