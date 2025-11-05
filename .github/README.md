@@ -31,7 +31,7 @@
 
 YutsuOS was a project I made during my 3rd year at EPITECH. The goal was to discover the **real** kernel-level programming.
 
-[**showcase**](./assets/showcase.png)
+![**showcase**](./assets/showcase.png)
 
 ## Installation
 
