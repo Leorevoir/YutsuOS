@@ -5,6 +5,10 @@
 
 #include "tests.h"
 
+/**
+ * static helpers
+ */
+
 static inline void yutsu_builtin_tests_strlen(void)
 {
     test_assert(strlen("") == 0, "strlen(\"\")", "strlen(\"\")");
@@ -36,6 +40,10 @@ static inline void yutsu_builtin_tests_itoa(void)
     test_assert(strcmp(itoa(2147483647, buf, 12), "2147483647") == 0, "itoa(INT_MAX)", "itoa(INT_MAX)");
     test_assert(strcmp(itoa(-2147483648, buf, 12), "-2147483648") == 0, "itoa(INT_MIN)", "itoa(INT_MIN)");
 }
+
+/**
+ * public
+ */
 
 u8 yutsu_builtin_tests_string(void)
 {
