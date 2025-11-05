@@ -1,8 +1,6 @@
 # Array
 
-## High-level:
-
-`Array` is a type defined in `std/array.h`.
+`array.h` is a header defined in `std/array.h`. It implements the `Array` type:
 
 ```c
 typedef struct
@@ -50,8 +48,6 @@ int main(void)
     array_free(&array);
 }
 ```
-
-## Low-level:
 
 You also can _auto-cleanup_ the array memory at the end of the block by building it with the macro `defer_array_free` :
 
