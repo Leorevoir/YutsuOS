@@ -16,6 +16,7 @@ typedef enum : u8
 {
     YUTSH_BUILTIN_TESTS_ARG_HELP = 0,
     YUTSH_BUILTIN_TESTS_ALLOCATE,
+    YUTSH_BUILTIN_TESTS_STRING,
     YUTSH_BUILTIN_TESTS_ARG_COUNT
 } YutshBuiltinTestsArgs;
 
@@ -50,6 +51,7 @@ typedef enum : u8
 
 u8 yutsu_builtin_tests_help(void);
 u8 yutsu_builtin_tests_allocate(void);
+u8 yutsu_builtin_tests_string(void);
 
 // clang-format off
 
@@ -63,7 +65,12 @@ u8 yutsu_builtin_tests_allocate(void);
         .args = "--allocate",                               \
         .help = "Run allocation tests",                     \
         .func = yutsu_builtin_tests_allocate                \
-    },
+    },\
+    [YUTSH_BUILTIN_TESTS_STRING] = {                                                     \
+        .args = "--string",                                 \
+        .help = "Run string tests",                         \
+        .func = yutsu_builtin_tests_string                  \
+    }
 
 // clang-format on
 
