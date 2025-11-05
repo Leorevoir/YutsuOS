@@ -67,6 +67,10 @@ Run the OS in a Virtual Machine:
 
 ---
 
+## Documentation
+
+See [**DOCUMENTATION**](../docs/README.md)
+
 ## License
 
 Project developed as part of the G-PRO-500 module at EPITECH.
