@@ -13,8 +13,6 @@
 
 static inline void yutsu_builtin_tests_allocate_simple(void)
 {
-    show("1. Testing simple allocation (32 bytes)...\n");
-
     defer_liberate void *ptr1 = allocate(32);
 
     test_assert(ptr1 != NULL, "Allocation succeeded.", "Allocation failed.");
@@ -27,8 +25,6 @@ static inline void yutsu_builtin_tests_allocate_simple(void)
 
 static inline void yutsu_builtin_tests_allocate_mid(void)
 {
-    show("2. Testing zero-size allocation...\n");
-
     defer_liberate void *ptr2 = allocate(0);
 
     test_assert(ptr2 == NULL, "allocate(0) returned NULL as expected.", "allocate(0) did not return NULL.");
@@ -36,8 +32,6 @@ static inline void yutsu_builtin_tests_allocate_mid(void)
 
 static inline void yutsu_builtin_tests_allocate_hard(void)
 {
-    show("4. Testing multiple allocations (8, 16, 64 bytes)...\n");
-
     defer_liberate void *multi_ptr1 = allocate(8);
     defer_liberate void *multi_ptr2 = allocate(16);
     defer_liberate void *multi_ptr3 = allocate(64);
@@ -49,7 +43,6 @@ static inline void yutsu_builtin_tests_allocate_hard(void)
 
 static inline void yutsu_builtin_tests_allocate_very_hard(void)
 {
-    show("5. Testing re-allocation after liberation...\n");
     defer_liberate void *realloc_ptr = allocate(32);
 
     test_assert(realloc_ptr != NULL, "Initial allocation of 32 bytes succeeded.",
