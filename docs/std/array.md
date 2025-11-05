@@ -2,7 +2,7 @@
 
 ## High-level:
 
-`Array` is a type defined in `std/array.h`.
+`array.h` is a header defined in `std/array.h`. It implements the `Array` type:
 
 ```c
 typedef struct
