@@ -1,4 +1,4 @@
-# array
+# Array
 
 ## High-level:
 
