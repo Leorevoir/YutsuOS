@@ -7,10 +7,10 @@ typedef unsigned int u32;
 typedef unsigned long long u64;
 typedef unsigned long int uptr;
 
-typedef char i8;
-typedef short i16;
-typedef int i32;
-typedef long long i64;
+typedef signed char i8;
+typedef signed short i16;
+typedef signed int i32;
+typedef signed long long i64;
 
 typedef float f32;
 typedef double f64;
