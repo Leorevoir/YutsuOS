@@ -15,8 +15,9 @@ typedef struct BuiltinTestsArgs
 typedef enum : u8
 {
     YUTSH_BUILTIN_TESTS_ARG_HELP = 0,
-    YUTSH_BUILTIN_TESTS_ALLOCATE,
+    YUTSH_BUILTIN_TESTS_MEMORY,
     YUTSH_BUILTIN_TESTS_STRING,
+    YUTSH_BUILTIN_TESTS_ARRAY,
     YUTSH_BUILTIN_TESTS_ARG_COUNT
 } YutshBuiltinTestsArgs;
 
@@ -50,8 +51,9 @@ typedef enum : u8
  */
 
 u8 yutsu_builtin_tests_help(void);
-u8 yutsu_builtin_tests_allocate(void);
+u8 yutsu_builtin_tests_memory(void);
 u8 yutsu_builtin_tests_string(void);
+u8 yutsu_builtin_tests_array(void);
 
 // clang-format off
 
@@ -61,17 +63,20 @@ u8 yutsu_builtin_tests_string(void);
         .help = "Show this help message",                   \
         .func = yutsu_builtin_tests_help                    \
     },                                                      \
-    [YUTSH_BUILTIN_TESTS_ALLOCATE] = {                      \
-        .args = "--allocate",                               \
+    [YUTSH_BUILTIN_TESTS_MEMORY] = {                        \
+        .args = "--memory",                                 \
         .help = "Run allocation tests",                     \
-        .func = yutsu_builtin_tests_allocate                \
-    },\
-    [YUTSH_BUILTIN_TESTS_STRING] = {                                                     \
+        .func = yutsu_builtin_tests_memory                  \
+    },                                                      \
+    [YUTSH_BUILTIN_TESTS_STRING] = {                        \
         .args = "--string",                                 \
         .help = "Run string tests",                         \
         .func = yutsu_builtin_tests_string                  \
-    }
-
-// clang-format on
+    },                                                      \
+    [YUTSH_BUILTIN_TESTS_ARRAY] = {                         \
+        .args = "--array",                                  \
+        .help = "Run array tests",                          \
+        .func = yutsu_builtin_tests_array                   \
+    },
 
 #endif /* YUTSUOS_YUTSH_BUILTIN_TESTS_TESTS_H */
