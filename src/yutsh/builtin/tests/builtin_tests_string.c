@@ -47,7 +47,7 @@ static inline void yutsu_builtin_tests_itoa(void)
 
 u8 yutsu_builtin_tests_string(void)
 {
-    show("\nRunning String tests...\n");
+    show("\nRunning String tests...\n\n");
     yutsu_builtin_tests_strlen();
     yutsu_builtin_tests_strcmp();
     yutsu_builtin_tests_itoa();
