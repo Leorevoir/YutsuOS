@@ -11,10 +11,8 @@
  * static helper
  */
 
-static inline void yutsu_builtin_tests_allocate_simple(void)
+static inline void yutsu_builtin_tests_allocate_1(void)
 {
-    show("1. Testing simple allocation (32 bytes)...\n");
-
     defer_liberate void *ptr1 = allocate(32);
 
     test_assert(ptr1 != NULL, "Allocation succeeded.", "Allocation failed.");
@@ -25,19 +23,15 @@ static inline void yutsu_builtin_tests_allocate_simple(void)
                 "Memory write/read test failed.");
 }
 
-static inline void yutsu_builtin_tests_allocate_mid(void)
+static inline void yutsu_builtin_tests_allocate_2(void)
 {
-    show("2. Testing zero-size allocation...\n");
-
     defer_liberate void *ptr2 = allocate(0);
 
     test_assert(ptr2 == NULL, "allocate(0) returned NULL as expected.", "allocate(0) did not return NULL.");
 }
 
-static inline void yutsu_builtin_tests_allocate_hard(void)
+static inline void yutsu_builtin_tests_allocate_3(void)
 {
-    show("4. Testing multiple allocations (8, 16, 64 bytes)...\n");
-
     defer_liberate void *multi_ptr1 = allocate(8);
     defer_liberate void *multi_ptr2 = allocate(16);
     defer_liberate void *multi_ptr3 = allocate(64);
@@ -47,14 +41,17 @@ static inline void yutsu_builtin_tests_allocate_hard(void)
     test_assert(multi_ptr3 != NULL, "Third allocation (64 bytes) succeeded.", "Third allocation (64 bytes) failed.");
 }
 
-static inline void yutsu_builtin_tests_allocate_very_hard(void)
+static inline void yutsu_builtin_tests_allocate_4(void)
 {
-    show("5. Testing re-allocation after liberation...\n");
     defer_liberate void *realloc_ptr = allocate(32);
 
     test_assert(realloc_ptr != NULL, "Initial allocation of 32 bytes succeeded.",
                 "Initial allocation of 32 bytes failed.");
 }
+
+/**
+ * dispatcher
+ */
 
 /**
  * public
@@ -63,12 +60,10 @@ static inline void yutsu_builtin_tests_allocate_very_hard(void)
 u8 yutsu_builtin_tests_allocate(void)
 {
     show("\nRunning allocation tests...\n\n");
-
-    yutsu_builtin_tests_allocate_simple();
-    yutsu_builtin_tests_allocate_mid();
-    yutsu_builtin_tests_allocate_hard();
-    yutsu_builtin_tests_allocate_very_hard();
-
+    yutsu_builtin_tests_allocate_1();
+    yutsu_builtin_tests_allocate_2();
+    yutsu_builtin_tests_allocate_3();
+    yutsu_builtin_tests_allocate_4();
     show("\nAllocation tests finished.\n");
     return YUTSUOS_SUCCESS;
 }
