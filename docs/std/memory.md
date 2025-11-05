@@ -1,10 +1,19 @@
 # Memory
 
-## High-level:
+## Description
 
 `memory.h` is a header defined in `std/memory.h`
 
-the abstractions defined in the module are: `allocate()`
+the abstractions defined in the module are:
+
+- allocate()
+- liberate()
+
+## Standards
+
+### allocate()
+
+`allocate()` works like `malloc()` from GLibC.
 
 ```c
 /**
@@ -18,7 +27,12 @@ the abstractions defined in the module are: `allocate()`
 void *allocate(const u32 size);
 ```
 
-and `liberate()`
+### liberate()
+
+`liberate()` works like `free()` from GLibC.
+
+> [!WARNING]
+> liberate can throw a panic() in some edge-cases
 
 ```c
 /**
@@ -33,23 +47,7 @@ and `liberate()`
 void liberate(void *ptr);
 ```
 
-these abstractions works like `malloc()` and `free()` from the GLibC, but safer.
-
-**usage example:**
-
-```c
-#include <YutsuOS/std/memory.h>
-
-int main(void)
-{
-    void *ptr = allocate(32);
-
-    /* ... */
-    liberate(ptr);
-}
-```
-
-## Low-level:
+### defer macro
 
 You also can _defer_ the `liberate()` at the end of the block using `defer_liberate` macro.
 
